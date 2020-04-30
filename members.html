@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>Members</title>
+  <link rel="stylesheet" href="style.css" type="text/css"></link>
+ </head>
+ <body>
+   <h2>Add a New Member</h2>
+   <div>
+   <form>
+     <h3>Personal Details</h3>
+     <label for="fname">First Name</label>
+     <input type="text" name="fname" id="fname"><br><br>
+     <label for="lname">Last Name</label>
+     <input type="text" name="lname" id="lname"><br><br>
+     <label for="date">Date of Birth</label>
+     <input type="date" name="DOB" id="DOB"><br><br>
+     <label for="gender">Gender</label>
+     <select name="genderDropdown">
+       <option value="genderDropdown">--Please choose an option--</option>
+       <option value="male">Male</option>
+       <option value="female">Female</option>
+       <option value="other">Other</option>
+     </select><br><br>
+     <label for="weight">Weight (in lbs)</label>
+     <input type="text" name="weight" id="weight"><br><br>
+     <h3>Gym Details</h3>
+     <label for="programDropdown">Program</label>
+     <select name="programDropdown">
+       <option value="">--Please choose an option--</option>
+       <option value="prog1">program 1</option>
+       <option value="prog2">program 2</option>
+       <option value="prog3">program 3</option>
+     </select><br><br>
+     <label for="trainerDropdown">Personal Trainer</label>
+     <select name="trainerDropdown">
+       <option value="">--Please choose an option--</option>
+       <option value="trainer1">trainer 1</option>
+       <option value="trainer2">trainer 2</option>
+       <option value="trainer3">trainer 3</option>
+     </select><br><br>
+     <input type="submit" name="addMember" value="Add Member">
+   </form>
+   </div>
+</body>
