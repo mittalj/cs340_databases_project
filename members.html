@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html>
  <head>
-  <meta charset="UTF-8">
   <title>Members</title>
+  <meta charset="UTF-8">
   <link rel="stylesheet" href="style.css" type="text/css"></link>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>
+  <link rel="stylesheet" href="style.css" type="text/css"></link>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script>
+    $.get("navbar.html", function(data){
+    $("#nav-placeholder2").replaceWith(data);
+    });
+  </script>
  </head>
+
  <body>
+   <!--Navigation bar-->
+  <div id="nav-placeholder2"></div>
+   <!--end of Navigation bar-->
+
    <h2>Add a New Member</h2>
-   <div>
+   <div class="formdiv">
    <form>
      <h3>Personal Details</h3>
      <label for="fname">First Name</label>
@@ -44,3 +59,4 @@
    </form>
    </div>
 </body>
+</html>

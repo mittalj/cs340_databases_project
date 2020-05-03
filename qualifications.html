@@ -3,11 +3,23 @@
  <head>
   <meta charset="UTF-8">
   <title>Members</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>
   <link rel="stylesheet" href="style.css" type="text/css"></link>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script>
+    $.get("navbar.html", function(data){
+    $("#nav-placeholder5").replaceWith(data);
+    });
+  </script>
  </head>
  <body>
+   <!--Navigation bar-->
+  <div id="nav-placeholder5"></div>
+   <!--end of Navigation bar-->
    <h2>Add a New Qualification</h2>
-   <div>
+  <div class="formdiv">
    <form>
      <label for="fname">Qualification</label>
      <input type="text" name="qual" id="qual"><br><br>
@@ -21,3 +33,4 @@
    </form>
    </div>
 </body>
+</html>

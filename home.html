@@ -1,32 +1,24 @@
-<!DOCTYPE html> 
-<html lang="en"> 
-<head> 
-  <title>Greatlife Fitness Clubs</title> 
-  <meta charset="utf-8"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1"> 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> 
-</head> 
-<body> 
- <nav class="navbar navbar-default"> 
-  <div class="container-fluid"> 
-    <div class="navbar-header"> 
-      <a class="navbar-brand" href="#">GreatLife Fitness Clubs </a> 
- </div> 
-    <ul class="nav navbar-nav"> 
-    <li style = "color:black">
-      <li class="bg-primary"><a href="#">Home</a></li> 
-      <li class="bg-primary"><a href="#">Members</a></li> 
-      <li class="bg-primary"><a href="#">Programs</a></li> 
-      <li class="bg-primary"><a href="#">Locations</a></li> 
-      <li class="bg-primary"><a href="#">Personal Trainers</a></li> 
-      <li class="bg-primary"><a href="#">Qualifications</a></li> 
-      <li class="bg-primary"><a href="#">Trainer Qualifications</a></li> 
-  	</li>
-    </ul> 
-  </div> 
-</nav> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Greatlife Fitness Clubs</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>
+  <link rel="stylesheet" href="style.css" type="text/css"></link>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script>
+    $.get("navbar.html", function(data){
+    $("#nav-placeholder1").replaceWith(data);
+    });
+  </script>
+</head>
+<body>
+  <!--Navigation bar-->
+  <div id="nav-placeholder1"></div>
+  <!--end of Navigation bar-->
 
 <h4>Health.Fitness.Together</h4>
 
@@ -34,12 +26,12 @@
 	<table>
 		<tr>
 			<td id = "first" width = 40px>
-					<a><img height="426" width="640"src="https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg?cs=srgb&dl=an-on-treadmill-1954524.jpg&fm=jpg"/> </a>			
+					<a><img height="426" width="640"src="https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg?cs=srgb&dl=an-on-treadmill-1954524.jpg&fm=jpg"/> </a>
 				</td>
-				
+
 		</tr>
 	</table>
 </div>
-    
-</body> 
+
+</body>
 </html>

@@ -3,11 +3,25 @@
  <head>
   <meta charset="UTF-8">
   <title>Programs</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"></link>
   <link rel="stylesheet" href="style.css" type="text/css"></link>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script>
+    $.get("navbar.html", function(data){
+    $("#nav-placeholder4").replaceWith(data);
+    });
+  </script>
  </head>
+
  <body>
+   <!--Navigation bar-->
+   <div id="nav-placeholder4"></div>
+   <!--end of Navigation bar-->
+
    <h2>Add a New Program</h2>
-   <div>
+   <div class="formdiv">
    <form>
      <label for="fname">Program Name</label>
      <input type="text" name="program" id="program"><br><br>
@@ -15,3 +29,4 @@
    </form>
    </div>
 </body>
+</html>
