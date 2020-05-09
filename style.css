@@ -1,16 +1,26 @@
 /*CSS for Form fields
 https://www.w3schools.com/css/css_form.asp*/
 
-input[type=text], input[type=date], select {
-  width: 100%;
+/*HTML to format input field properties*/
+input[type=text],
+input[type=date],
+input[input=number],
+select {
+  width: 200px;
   padding: 12px 20px;
   margin: 8px 0;
-  display: inline-block;
+  display: inline!important;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
 }
 
+/*HTML to add padding to form labels*/
+label {
+  padding: 10px;
+}
+
+/*HTML to add design properties to submit buttons on the form*/
 input[type=submit] {
   background-color: #4169E1;
   color: white;
@@ -26,13 +36,27 @@ input[type=submit]:hover {
   background-color: #4169E1;
 }
 
+/*HTML to add formatting form containers*/
 .formdiv {
   border-radius: 5px;
   background-color: #f2f2f2;
   padding: 20px;
-  width: 450px;
+  width: 400px;
 }
 
+#locationForm {
+  width: 875px;
+}
+
+#memberForm {
+  width: 950px;
+}
+
+#trainerForm {
+  width: 700px;
+}
+
+/*HTML to add styling to the navigation bar*/
 .navbar-nav {
   background-color: #4169E1;
 }
@@ -41,10 +65,11 @@ input[type=submit]:hover {
   color: white;
 }
 
+/*HTML for the Home Page*/
 .slogan {
 	font-family: 'Roboto Condensed', sans-serif;
 	height: 100px;
-  	width: 51%;
+  width: 51%;
 	text-align: center;
 	font-size: 50px;
 }
