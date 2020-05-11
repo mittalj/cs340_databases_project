@@ -18,36 +18,40 @@
    <!--Navigation bar-->
   <div id="nav-placeholder7"></div>
    <!--end of Navigation bar-->
-   <h2>Add a New Personal Trainer</h2>
-  <div class="formdiv" id="trainerForm">
-   <form>
-     <label for="fname">First Name</label>
-     <input type="text" name="fname" id="fname">
-     <label for="lname">Last Name</label>
-     <input type="text" name="lname" id="lname"></br></br>
-     <label for="date">Date of Birth</label>
-     <input type="date" name="DOB" id="DOB">
-     <label for="gender">Gender</label>
-     <select name="gender">
-       <option value="gender">--Please choose an option--</option>
-       <option value="male">Male</option>
-       <option value="female">Female</option>
-       <option value="other">Other</option>
-     </select></br></br>
-     <label for="date">Date of Employment</label>
-     <input type="date" name="DOE" id="DOE"></br></br>
-     <label for="capacity">Capacity</label>
-     <input type="number" name="capacity" id="capacity" min="1" max= "10"><br><br>
-     <label for="LocationID">Location</label>
-     <select name="LocationID">
-       <option value="location1">Location1</option>
-       <option value="location2">Location2</option>
-       <option value="location3">Location3</option>
-     </select><br><br>
-     <label for="qualName">Qualification</label>
-     <input type="text" name="qualName" id="qualName" placeholder="--dynamic list of qualifications--"><br><br>
-     <input type="submit" name="addTrainer" value="Add Personal Trainer">
-   </form>
-   </div>
+  
+	    <table>
+   	<thead>
+   	<tr>
+   		<th>First Name</th>
+   		<th>Last Name</th>
+   		<th>DOB</th>
+   		<th>Gender</th>
+   		<th>Date of Employment</th>
+   		<th>Capacity</th>
+   		<th>Location</th>
+   		<th>Qualification</th>
+   		<th>Changes Required?</th>
+   	</tr>
+   </thead>
+
+   <tbody>
+   	<tr>
+   		<td>Arya</td>
+   		<td>Stark</td>
+   		<td>01/01/1990</td>
+   		<td>Female</td>
+   		<td>1/8/2020</td>
+   		<td>5</td>
+   		<td>Riverdale</td>
+   		<td>Strengthen Cert</td>
+   		<td><a href=""><button>Update</button></a>
+		<a href=""><button>Delete</button></a></td>
+   	</tr>
+   </tbody>
+   	
+   </table>
+
+<a href="http://people.oregonstate.edu/~mittalj/addTrainer.html"><button>Add a Trainer</button></a>
+	 
 </body>
 </html>
