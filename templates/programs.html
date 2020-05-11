@@ -1,0 +1,24 @@
+<!--File for programs using extension from base htnml-->
+
+{% extends "base.html" %}
+{% block content %}
+
+<table>
+   	<thead>
+   	<tr>
+		<th>Program Name</th>
+   	</tr>
+   </thead>
+
+   <tbody>
+   	<tr>
+   		<td>Strengthen</td>
+   	</tr>
+	   <td>Weight loss</td>
+   </tbody>
+
+   </table>
+
+ 	<a href="{{url_for('addProgram')}}"><button>Add Program</button></a>
+
+{% endblock %}

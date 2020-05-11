@@ -1,0 +1,21 @@
+<!--File for add qualification using extension from base htnml-->
+
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Add a New Qualification</h2>
+<div class="formdiv">
+<form>
+  <label for="fname">Qualification</label>
+  <input type="text" name="qual" id="qual"><br><br>
+  <label for="isCertDropdown">Is it a Certification?</label>
+  <select name="isCertDropdown">
+    <option value="">--Please Select Yes or No--</option>
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+  </select><br><br>
+  <input type="submit" name="addQualr" value="Add Qualification">
+</form>
+</div>
+
+{% endblock %}

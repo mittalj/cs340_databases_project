@@ -1,0 +1,34 @@
+<!--File for locations using extension from base htnml-->
+
+{% extends "base.html" %}
+{% block content %}
+
+<table>
+  <thead>
+  <tr>
+   <th>Branch Name</th>
+   <th>Address Line 1</th>
+   <th>Address Line 2</th>
+   <th>City</th>
+   <th>State</th>
+   <th>Zip Code</th>
+   <th>Changes Required?</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr>
+   <td>Oregon State University Campus</td>
+   <td>1701 SW Western Boulevard</td>
+   <td>NULL</td>
+   <td>Corvallis</td>
+   <td>OR</td>
+   <td>97333</td>
+   <td><a href=""><button>Update</button></a>
+  </tr>
+  </tbody>
+</table>
+
+<a href="{{url_for('addLocation')}}"><button>Add a Location</button></a>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+<!--File for qualifications using extension from base htnml-->
+
+{% extends "base.html" %}
+{% block content %}
+
+<table>
+ <thead>
+ <tr>
+   <th>Qualification </th>
+   <th>Is Cert? </th>
+ </tr>
+</thead>
+
+<tbody>
+ <tr>
+   <td>Strengthen Cert</td>
+   <td>Yes</td>
+ </tr>
+</tbody>
+
+</table>
+
+<a href="{{url_for('addQualification')}}"><button>Add a Qualification</button></a>
+
+{% endblock %}
