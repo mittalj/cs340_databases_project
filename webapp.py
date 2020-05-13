@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 from flask import request, redirect, url_for
-#from db_connector.db_connector import connect_to_database, execute_query
 #create the web application
 app = Flask(__name__)
 
@@ -47,6 +46,22 @@ def addQualification():
 @app.route('/addProgram')
 def addProgram():
     return render_template('addProgram.html')
+
+@app.route('/updateMember')
+def updateMember():
+    return render_template('updateMember.html')
+
+@app.route('/updateTrainer')
+def updateTrainer():
+    return render_template('updateTrainer.html')
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
