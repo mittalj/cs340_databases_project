@@ -12,12 +12,13 @@
 </thead>
 
 <tbody>
- <tr>
-   <td>Strengthen Cert</td>
-   <td>Yes</td>
- </tr>
+  {% for r in rows %}
+  <tr>
+   <td>{{r[0]}}</td>
+   <td>{{r[1]}}</td>
+  </tr>
+  {% endfor %}
 </tbody>
-
 </table>
 
 <a href="{{url_for('addQualification')}}"><button>Add a Qualification</button></a>
