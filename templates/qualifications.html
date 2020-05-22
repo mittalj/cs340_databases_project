@@ -3,11 +3,12 @@
 {% extends "base.html" %}
 {% block content %}
 
-<table>
+<h2>Qualifications for Trainers</h2>
+<table class="table table-hover table-condensed qual-table">
  <thead>
  <tr>
    <th>Qualification </th>
-   <th>Is Cert? </th>
+   <th>Is Certification? </th>
  </tr>
 </thead>
 
@@ -21,6 +22,6 @@
 </tbody>
 </table>
 
-<a href="{{url_for('addQualification')}}"><button>Add a Qualification</button></a>
+<a class = "addButton" href="{{url_for('addQualification')}}"><button>Add a Qualification</button></a>
 
 {% endblock %}

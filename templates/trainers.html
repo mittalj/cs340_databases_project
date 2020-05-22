@@ -3,7 +3,8 @@
 {% extends "base.html" %}
 {% block content %}
 
-<table>
+<h2>Personal Trainers</h2>
+<table class="table table-hover table-condensed trainer-table">
 <thead>
 <tr>
   <th>First Name</th>
@@ -35,7 +36,7 @@
 
 </table>
 
-<a href="{{url_for('addTrainer')}}"><button>Add a Trainer</button></a>
+<a class="addButton" href="{{url_for('addTrainer')}}"><button>Add a Trainer</button></a>
 
 
 {% endblock %}
