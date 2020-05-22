@@ -3,14 +3,14 @@
 {% extends "base.html" %}
 {% block content %}
 
-
+<h2>Fitness Club Members</h2>
 	 <!-- Search form -->
 <form class="form-inline mr-auto">
   <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
   <button class="btn btn-unique btn-rounded btn-sm my-0" type="submit">Search</button>
 </form>
 
-   <table>
+   <table class="table table-hover table-condensed member-table">
    	<thead>
    	<tr>
    		<th>First Name</th>
@@ -42,6 +42,6 @@
 
    </table>
 
-<a href="{{url_for('addMember')}}"><button>Add a Member</button></a>
+<a class="addButton" href="{{url_for('addMember')}}"><button>Add a Member</button></a>
 
 {% endblock %}
