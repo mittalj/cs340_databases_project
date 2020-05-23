@@ -124,17 +124,23 @@ th {
 }
 
 .qual-table {
-  width: 40%;
+  width: 30%;
 }
 
 .program-table {
-  width: 10%;
+  width: 20%;
 }
 
 .trainer-table {
-  width: 70%;
+  width: 80%;
 }
 
 .location-table, .member-table{
   width: 80%;
+}
+
+.confirmMessage {
+  color:red;
+  font-size:20px;
+  list-style: none;
 }

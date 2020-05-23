@@ -1,8 +1,9 @@
 from flask import Flask, render_template
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, flash
 from db_connector import connect_to_database, execute_query
 #create the web application
 app = Flask(__name__)
+app.secret_key = "SECRETKEY"
 
 @app.route('/')
 def home():
@@ -18,7 +19,15 @@ def locations():
 
 @app.route('/trainers')
 def trainers():
-	return render_template('trainers.html')
+	db_connection = connect_to_database()
+	query = "SELECT t.first_name, t.last_name, t.birth_date, t.gender, t.date_employed, t.capacity, l.branch_name, \
+	GROUP_CONCAT(q.qual_name SEPARATOR', ') from trainers t \
+	INNER JOIN locations l ON t.location_id = l.location_id \
+	LEFT JOIN trainer_qualifications tq ON t.trainer_id = tq.trainer_id \
+	LEFT JOIN qualifications q ON tq.qual_id = q.qual_id GROUP BY t.trainer_id;"
+	result = execute_query(db_connection, query).fetchall()
+	print(result)
+	return render_template('trainers.html',rows=result)
 
 @app.route('/qualifications')
 def qualifications():
@@ -29,7 +38,10 @@ def qualifications():
 
 @app.route('/programs')
 def programs():
-	return render_template('programs.html')
+	db_connection = connect_to_database()
+	query = "SELECT program_name from programs;"
+	result = execute_query(db_connection, query).fetchall()
+	return render_template('programs.html',rows=result)
 
 @app.route('/addMember')
 def addMember():
@@ -39,23 +51,79 @@ def addMember():
 def addLocation():
 	return render_template('addLocation.html')
 
-@app.route('/addTrainer')
+@app.route('/addTrainer',methods=['POST','GET'])
 def addTrainer():
-	return render_template('addTrainer.html')
+		db_connection = connect_to_database()
+		if request.method == 'GET':
+			query1 = "Select qual_id, qual_name from qualifications;"
+			result1 = execute_query(db_connection, query1).fetchall()
+			query2 = "SELECT location_id, branch_name from locations;"
+			result2 = execute_query(db_connection, query2).fetchall()
+			return render_template('addTrainer.html', quals=result1, locations=result2)
+		elif request.method == 'POST':
+			first_name_input = request.form['first_name']
+			last_name_input = request.form['last_name']
+			birth_date_input = request.form['birth_date']
+			gender_input = request.form['gender']
+			if gender_input == 'male':
+				gender_input = 0
+			elif gender_input == 'female':
+				gender_input = 1
+			else:
+				gender_input = 2
+			date_employed_input = request.form['date_employed']
+			capacity_input = request.form['capacity']
+			location_dropdown_input = request.form['location_id']
+			qual_id_dropdown_input = request.form['qual_id']
+			query1 = "INSERT INTO trainers (first_name, last_name, birth_date, gender, date_employed, capacity, location_id) \
+			VALUES (%s,%s,%s,%s,%s,%s,%s)"
+			data1 = (first_name_input,last_name_input,birth_date_input,gender_input,date_employed_input,capacity_input,location_dropdown_input)
+			result1 = execute_query(db_connection, query1, data1)
+			myTrainerID = result1.lastrowid
+			print("My Trainer ID:")
+			print(myTrainerID)
+			query2="INSERT INTO trainer_qualifications (trainer_id, qual_id) VALUES (%s, %s)"
+			data2= (myTrainerID,qual_id_dropdown_input)
+			execute_query(db_connection, query2, data2)
+			flash(u'A Trainer Has Been Added!!', 'confirmation')
+			return redirect(url_for('trainers'))
 
-@app.route('/addQualification')
+@app.route('/addQualification',methods=['POST','GET'])
 def addQualification():
-	return render_template('addQualification.html')
+	if request.method == 'GET':
+		return render_template('addQualification.html')
+	elif request.method == 'POST':
+		qual_name_input = request.form['qual_name']
+		is_cert_input = request.form['is_cert']
+		if is_cert_input == 'yes':
+			is_cert_input = 1
+		else:
+			is_cert_input = 0
+		db_connection = connect_to_database()
+		query = "INSERT INTO qualifications (qual_name, is_cert) VALUES (%s, %s)"
+		data = (qual_name_input, is_cert_input)
+		execute_query(db_connection, query, data)
+		flash(u'A Qualification Has Been Added!!', 'confirmation')
+		return redirect(url_for('qualifications'))
 
-@app.route('/addProgram')
+@app.route('/addProgram',methods=['POST','GET'])
 def addProgram():
-	return render_template('addProgram.html')
+	if request.method == 'GET':
+		return render_template('addProgram.html')
+	elif request.method == 'POST':
+		program_name_input = request.form['program_name']
+		db_connection = connect_to_database()
+		query = "INSERT INTO programs (program_name) VALUES (%s)"
+		data = (program_name_input,)
+		execute_query(db_connection, query, data)
+		flash(u'A Program Has Been Added!!', 'confirmation')
+		return redirect(url_for('programs'))
 
 @app.route('/updateMember')
 def updateMember():
 	return render_template('updateMember.html')
 
-@app.route('/updateTrainer')
+@app.route('/updateTrainer',methods=['POST','GET'])
 def updateTrainer():
 	return render_template('updateTrainer.html')
 
