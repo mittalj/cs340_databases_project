@@ -11,12 +11,20 @@ def home():
 
 @app.route('/members')
 def members():
-	return render_template('members.html')
+	db_connection = connect_to_database()
+	query = "m.first_name, m.last_name, m.birth_date, m.gender, m.weight, p.program_name, l.branch_name from members m \
+	INNER JOIN programs p ON m.program_id = p.program_id \
+	INNER JOIN locations l ON m.preferred_location = l.location_id;"
+	result = execute_query(db_connection, query).fetchall()
+	return render_template('members.html',rows=result)
 
 @app.route('/locations')
 def locations():
-	return render_template('locations.html')
-
+	db_connection = connect_to_database()
+	query = "SELECT branch_name, address_line1, address_line2, city, state, zip from locations;"
+	result = execute_query(db_connection, query).fetchall()
+	return render_template('locations.html',rows=result)
+	
 @app.route('/trainers')
 def trainers():
 	db_connection = connect_to_database()
@@ -82,7 +90,9 @@ def addMember():
 @app.route('/addLocation')
 def addLocation():
 	db_connection = connect_to_database()
-		if request.method == 'POST':
+		if request.method == 'GET':
+			return render_template('addLocation.html')
+		elif request.method == 'POST':
 			branch_name_input = request.form['branch_name']
 			address_line1_input = request.form['address_line1']
 			address_line2_input = request.form['address_line2']
