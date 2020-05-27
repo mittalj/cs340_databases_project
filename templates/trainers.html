@@ -3,6 +3,7 @@
 {% extends "base.html" %}
 {% block content %}
 
+
 <!--https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/-->
 {% with confirmations = get_flashed_messages(category_filter=["confirmation"]) %}
 {% if confirmations %}

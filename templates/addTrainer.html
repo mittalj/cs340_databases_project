@@ -30,14 +30,22 @@
         <option value="{{ l[0] }}">{{ l[1] }}</option>
       {% endfor %}
     </select><br><br>
-    <label for="qual_id">Qualification</label>
-    <select name="qual_id" required>
-      <option value="" disabled selected>Select your option</option>
-      {% for q in quals %}
-        <option value="{{ q[0] }}">{{ q[1] }}</option>
-      {% endfor %}
-    </select><br><br>
-    <input type="submit" name="addTrainer" value="Add Personal Trainer">
+
+    <div id="mainQualDiv">
+      <div class="qualDivField" id="qualDivId">
+        <label for="qual_id">Qualification</label>
+        <select name='input_text' id = "qual_id" required>
+          <option value="" disabled selected>Select your option</option>
+          {% for q in quals %}
+            <option value="{{ q[0] }}">{{ q[1] }}</option>
+          {% endfor %}
+        </select><br><br>
+      </div>
+    </div>
+    <a class="removeButton"><button id="removeQual">Remove Qualification</button></a>
+    <a class="addQualButton"><button id="addMoreQual">Add More Qualifications</button></a></br></br>
+
+    <input type="submit" id="addTrainerSubmit" name="addTrainer" value="Add Personal Trainer">
   </form>
 </div>
 
