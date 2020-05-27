@@ -32,18 +32,21 @@
   </thead>
 
   <tbody>
+  {% for r in rows %}
   <tr>
-   <td>Oregon State University Campus</td>
-   <td>1701 SW Western Boulevard</td>
-   <td>NULL</td>
-   <td>Corvallis</td>
-   <td>OR</td>
-   <td>97333</td>
-   <td><a href=""><button>Update</button></a>
+   <td>{{r[0]}}</td>
+   <td>{{r[1]}}</td>
+   <td>{{r[2]}}</td>
+   <td>{{r[3]}}</td>
+   <td>{{r[4]}}</td>
+   <td>{{r[5]}}</td>
+
+    <td><a href="{{url_for('updateLocation')}}"><button>Update</button></a></td>
   </tr>
-  </tbody>
+  {% endfor %}
+</tbody>
+
 </table>
 
 <a class="addButton" href="{{url_for('addLocation')}}"><button>Add a Location</button></a>
-
 {% endblock %}
