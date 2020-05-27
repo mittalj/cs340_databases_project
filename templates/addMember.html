@@ -5,44 +5,54 @@
 
 <h2>Add a New Member</h2>
 <div class="formdiv" id="memberForm">
-    <form>
+    <form action = "/addMember" method="POST">
     <h3>Personal Details</h3>
-    <label for="fname">First Name</label>
-    <input type="text" name="fname" id="fname">
-    <label for="lname">Last Name</label>
-    <input type="text" name="lname" id="lname"><br><br>
-    <label for="date">Date of Birth</label>
-    <input type="date" name="DOB" id="DOB">
+
+    <label for="first_name">First Name</label>
+    <input type="text" name="first_name" id="first_name" required>
+
+    <label for="last_name">Last Name</label>
+    <input type="text" name="last_name" id="last_name" required><br><br>
+
+    <label for="birth_date">Date of Birth</label>
+    <input type="date" name="birth_date" id="birth_date" required>
+
     <label for="gender">Gender</label>
-    <select name="genderDropdown">
-      <option value="genderDropdown">--Please choose an option--</option>
+    <select name="gender" required>
+      <option value="" disabled selected>Select your option</option>
       <option value="male">Male</option>
       <option value="female">Female</option>
       <option value="other">Other</option>
     </select>
+
     <label for="weight">Weight (in lbs)</label>
-    <input type="text" name="weight" id="weight"><br><br>
+    <input type="text" name="weight" id="weight" required><br><br>
+
     <h3>Gym Details</h3>
-    <label for="programDropdown">Program</label>
-    <select name="programDropdown">
-      <option value="">--Please choose an option--</option>
-      <option value="prog1">program 1</option>
-      <option value="prog2">program 2</option>
-      <option value="prog3">program 3</option>
+    <label for="program_id">Program</label>
+    <select name="program_id">
+      <option value="" disabled selected>--Please choose an option--</option>
+      {% for p in programs %}
+          <option value="{{ p[0] }}">{{ p[1] }}</option>
+      {% endfor %}
     </select><br><br>
-    <label for="LocationID">Preferred Location</label>
-    <select name="LocationID">
-      <option value="location1">Location1</option>
-      <option value="location2">Location2</option>
-      <option value="location3">Location3</option>
+
+    <label for="preferred_location">Preferred Location</label>
+    <select name="preferred_location" required>
+    <option value="" disabled selected>--Please choose an option--</option>
+      {% for l in locations %}
+          <option value="{{ l[0] }}">{{ l[1] }}</option>
+      {% endfor %}
     </select>
-    <label for="trainerDropdown">Personal Trainer</label>
-    <select name="trainerDropdown">
-      <option value="">--Please choose an option--</option>
-      <option value="trainer1">trainer 1</option>
-      <option value="trainer2">trainer 2</option>
-      <option value="trainer3">trainer 3</option>
+
+    <label for="trainer_id">Personal Trainer</label>
+    <select name="trainer_id" required>
+      <option value="" disabled selected>--Please choose an option--</option>
+      {% for t in trainers %}
+          <option value="{{ t[0] }}">{{ t[1] }}</option>
+      {% endfor %}
     </select><br><br>
+
     <input type="submit" name="addMember" value="Add Member">
     </form>
 </div>
