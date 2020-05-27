@@ -54,59 +54,59 @@ def programs():
 @app.route('/addMember')
 def addMember():
 	db_connection = connect_to_database()
-		if request.method == 'GET':
-			query1 = "Select program_id, program_name from programs;"
-			result1 = execute_query(db_connection, query1).fetchall()
-			query2 = "SELECT location_id, branch_name from locations;"
-			result2 = execute_query(db_connection, query2).fetchall()
-			query3 = "SELECT trainer_id, first_name + " " + last_name from trainers;"
-			result3 = execute_query(db_connection, query3).fetchall()
-			return render_template('addMember.html', programs=result1, locations=result2, trainers=result3)
-		elif request.method == 'POST':
-			first_name_input = request.form['first_name']
-			last_name_input = request.form['last_name']
-			birth_date_input = request.form['birth_date']
-			gender_input = request.form['gender']
-			if gender_input == 'male':
-				gender_input = 0
-			elif gender_input == 'female':
-				gender_input = 1
-			else:
-				gender_input = 2
-			weight_input = request.form['weight']
-			program_name_input = request.form['program_name']
-			location_dropdown_input = request.form['location_id']
-			trainer_id_dropdown_input = request.form['trainer_id']
-			query1 = "INSERT INTO members (first_name, last_name, birth_date, gender, weight, program_name, location_id, trainer_id) \
-			VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-			data1 = (first_name_input,last_name_input,birth_date_input,gender_input, weight_input, program_name_input, location_dropdown_input, trainer_id_dropdown_input)
-			result1 = execute_query(db_connection, query1, data1)
-			myMemberID = result1.lastrowid
-			print("My Member ID:")
-			print(myMemberID)
-			flash(u'A Member Has Been Added!!', 'confirmation')
-			return redirect(url_for('members'))
+	if request.method == 'GET':
+		query1 = "Select program_id, program_name from programs;"
+		result1 = execute_query(db_connection, query1).fetchall()
+		query2 = "SELECT location_id, branch_name from locations;"
+		result2 = execute_query(db_connection, query2).fetchall()
+		query3 = "SELECT trainer_id, first_name + " " + last_name from trainers;"
+		result3 = execute_query(db_connection, query3).fetchall()
+		return render_template('addMember.html', programs=result1, locations=result2, trainers=result3)
+	elif request.method == 'POST':
+		first_name_input = request.form['first_name']
+		last_name_input = request.form['last_name']
+		birth_date_input = request.form['birth_date']
+		gender_input = request.form['gender']
+		if gender_input == 'male':
+			gender_input = 0
+		elif gender_input == 'female':
+			gender_input = 1
+		else:
+			gender_input = 2
+		weight_input = request.form['weight']
+		program_name_input = request.form['program_name']
+		location_dropdown_input = request.form['location_id']
+		trainer_id_dropdown_input = request.form['trainer_id']
+		query1 = "INSERT INTO members (first_name, last_name, birth_date, gender, weight, program_name, location_id, trainer_id) \
+		VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
+		data1 = (first_name_input,last_name_input,birth_date_input,gender_input, weight_input, program_name_input, location_dropdown_input, trainer_id_dropdown_input)
+		result1 = execute_query(db_connection, query1, data1)
+		myMemberID = result1.lastrowid
+		print("My Member ID:")
+		print(myMemberID)
+		flash(u'A Member Has Been Added!!', 'confirmation')
+		return redirect(url_for('members'))
 
 @app.route('/addLocation')
 def addLocation():
 	db_connection = connect_to_database()
-		if request.method == 'GET':
-			return render_template('addLocation.html')
-		elif request.method == 'POST':
-			branch_name_input = request.form['branch_name']
-			address_line1_input = request.form['address_line1']
-			address_line2_input = request.form['address_line2']
-			state_input = request.form['state']
-			zip_input = request.form['zip']
-			query1 = "INSERT INTO locations(branch_name, address_line1, address_line2, state, zip) \
-			VALUES (%s,%s,%s,%s,%s)"
-			data1 = (branch_name_input, address_line1_input, address_line2_input, state_input, zip_input)
-			result1 = execute_query(db_connection, query1, data1)
-			myLocationID = result1.lastrowid
-			print("My Location ID:")
-			print(myLocationID)
-			flash(u'A Location Has Been Added!!', 'confirmation')
-			return redirect(url_for('locations'))
+	if request.method == 'GET':
+		return render_template('addLocation.html')
+	elif request.method == 'POST':
+		branch_name_input = request.form['branch_name']
+		address_line1_input = request.form['address_line1']
+		address_line2_input = request.form['address_line2']
+		state_input = request.form['state']
+		zip_input = request.form['zip']
+		query1 = "INSERT INTO locations(branch_name, address_line1, address_line2, state, zip) \
+		VALUES (%s,%s,%s,%s,%s)"
+		data1 = (branch_name_input, address_line1_input, address_line2_input, state_input, zip_input)
+		result1 = execute_query(db_connection, query1, data1)
+		myLocationID = result1.lastrowid
+		print("My Location ID:")
+		print(myLocationID)
+		flash(u'A Location Has Been Added!!', 'confirmation')
+		return redirect(url_for('locations'))
 		
 @app.route('/addTrainer',methods=['POST','GET'])
 def addTrainer():
