@@ -41,16 +41,25 @@
 
    <tbody>
    	<tr>
-   		<td>Jon</td>
-   		<td>Snow</td>
-   		<td>01/01/1980</td>
-   		<td>Male</td>
-   		<td>180</td>
-   		<td>Strengthen</td>
-   		<td>Riverdale</td>
-   		<td>Arya Stark</td>
-   		<td><a href="{{url_for('updateMember')}}"><button>Update</button></a>
-		<a href=""><button>Delete</button></a></td>
+      {% for r in rows %}
+      <tr>
+       <td>{{r[0]}}</td>
+       <td>{{r[1]}}</td>
+       <td>{{r[2]}}</td>
+       {% if r[3] == 0 %}
+            <td>Male</td>
+       {% elif r[3] == 1 %}
+            <td>Female</td>
+       {% else %}
+            <td>Other</td>
+       {% endif %}
+       <td>{{r[4]}}</td>
+       <td>{{r[5]}}</td>
+       <td>{{r[6]}}</td>
+       <td>{{r[7]}}</td>
+       <td><a href="{{url_for('updateMember')}}"><button>Update</button></a>
+ 		   <a href=""><button>Delete</button></a></td>
+       {% endfor %}
    	</tr>
    </tbody>
 

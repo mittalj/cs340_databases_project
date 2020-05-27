@@ -14,9 +14,15 @@ def home():
 @app.route('/members')
 def members():
 	db_connection = connect_to_database()
-	query = "m.first_name, m.last_name, m.birth_date, m.gender, m.weight, p.program_name, l.branch_name from members m \
-	INNER JOIN programs p ON m.program_id = p.program_id \
-	INNER JOIN locations l ON m.preferred_location = l.location_id;"
+	#query = "SELECT m.first_name, m.last_name, m.birth_date, m.gender, m.weight, p.program_name, l.branch_name from members m \
+	#INNER JOIN programs p ON m.program_id = p.program_id \
+	#INNER JOIN locations l ON m.preferred_location = l.location_id;"
+	query = "SELECT m.first_name, m.last_name, m.birth_date, m.gender, m.weight, p.program_name, l.branch_name,\
+	CONCAT_WS(' ', t.first_name, t.last_name) \
+	FROM members m \
+	INNER JOIN locations l ON m.preferred_location = l.location_id \
+	LEFT JOIN programs p ON m.program_id = p.program_id \
+	LEFT JOIN trainers t ON m.trainer_id = t.trainer_id;"
 	result = execute_query(db_connection, query).fetchall()
 	return render_template('members.html',rows=result)
 
