@@ -51,7 +51,7 @@ def programs():
 	result = execute_query(db_connection, query).fetchall()
 	return render_template('programs.html',rows=result)
 
-@app.route('/addMember')
+@app.route('/addMember',methods=['POST','GET'])
 def addMember():
 	db_connection = connect_to_database()
 	if request.method == 'GET':
@@ -87,7 +87,7 @@ def addMember():
 		flash(u'A Member Has Been Added!!', 'confirmation')
 		return redirect(url_for('members'))
 
-@app.route('/addLocation')
+@app.route('/addLocation',methods=['POST','GET'])
 def addLocation():
 	db_connection = connect_to_database()
 	if request.method == 'GET':
