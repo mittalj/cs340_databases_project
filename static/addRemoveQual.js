@@ -1,3 +1,4 @@
+/*
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById("addMoreQual").addEventListener("click",  addQualEvent);
 });
@@ -5,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById("removeQual").addEventListener("click",  remove_qual);
 });
+*/
 
 function addQualEvent() {
   var newClone = document.getElementById("qualDivId").cloneNode(true);

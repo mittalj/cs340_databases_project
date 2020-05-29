@@ -56,7 +56,7 @@
    <td>{{r[6]}}</td>
    <td>{{r[7]}}</td>
    <td><a href="{{url_for('updateTrainer')}}"><button>Update</button></a>
-      <a href=""><button>Delete</button></a></td>
+   <input type='button' value='Delete' name='Delete' onclick="window.location='/delete_trainer/{{r[8]}}'"</td>
   </tr>
   {% endfor %}
 </tbody>
@@ -64,6 +64,5 @@
 </table>
 
 <a class="addButton" href="{{url_for('addTrainer')}}"><button>Add a Trainer</button></a>
-
 
 {% endblock %}

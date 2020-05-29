@@ -27,12 +27,12 @@ def locations():
 	query = "SELECT branch_name, address_line1, address_line2, city, state, zip from locations;"
 	result = execute_query(db_connection, query).fetchall()
 	return render_template('locations.html',rows=result)
-	
+
 @app.route('/trainers')
 def trainers():
 	db_connection = connect_to_database()
 	query = "SELECT t.first_name, t.last_name, t.birth_date, t.gender, t.date_employed, t.capacity, l.branch_name, \
-	GROUP_CONCAT(q.qual_name SEPARATOR', ') from trainers t \
+	GROUP_CONCAT(q.qual_name SEPARATOR', '), t.trainer_id from trainers t \
 	INNER JOIN locations l ON t.location_id = l.location_id \
 	LEFT JOIN trainer_qualifications tq ON t.trainer_id = tq.trainer_id \
 	LEFT JOIN qualifications q ON tq.qual_id = q.qual_id GROUP BY t.trainer_id;"
@@ -106,7 +106,7 @@ def addLocation():
 		execute_query(db_connection, query, data)
 		flash(u'A Location Has Been Added!!', 'confirmation')
 		return redirect(url_for('locations'))
-		
+
 @app.route('/addTrainer',methods=['POST','GET'])
 def addTrainer():
 	db_connection = connect_to_database()
@@ -130,17 +130,17 @@ def addTrainer():
 		date_employed_input = request.form['date_employed']
 		capacity_input = request.form['capacity']
 		location_dropdown_input = request.form['location_id']
-		qual_id_dropdown_input = request.form['qual_id']
 		query1 = "INSERT INTO trainers (first_name, last_name, birth_date, gender, date_employed, capacity, location_id) \
 		VALUES (%s,%s,%s,%s,%s,%s,%s)"
 		data1 = (first_name_input,last_name_input,birth_date_input,gender_input,date_employed_input,capacity_input,location_dropdown_input)
 		result1 = execute_query(db_connection, query1, data1)
 		myTrainerID = result1.lastrowid
-		print("My Trainer ID:")
-		print(myTrainerID)
-		query2="INSERT INTO trainer_qualifications (trainer_id, qual_id) VALUES (%s, %s)"
-		data2= (myTrainerID,qual_id_dropdown_input)
-		execute_query(db_connection, query2, data2)
+		values = request.form.getlist('input_text')
+		for v in values:
+			qual_id_dropdown_input = v
+			query2="INSERT INTO trainer_qualifications (trainer_id, qual_id) VALUES (%s, %s)"
+			data2= (myTrainerID,qual_id_dropdown_input)
+			execute_query(db_connection, query2, data2)
 		flash(u'A Trainer Has Been Added!!', 'confirmation')
 		return redirect(url_for('trainers'))
 
@@ -186,6 +186,16 @@ def updateTrainer():
 @app.route('/updateLocation')
 def updateLocation():
 	return render_template('updateLocation.html')
+
+@app.route('/delete_trainer/<int:id>')
+def delete_trainer(id):
+	'''deletes a person with the given id'''
+	db_connection = connect_to_database()
+	query = "DELETE FROM trainers WHERE trainer_id = %s"
+	data = (id,)
+	result = execute_query(db_connection, query, data)
+	flash(u'A Trainer Has Been Deleted.', 'confirmation')
+	return redirect(url_for('trainers'))
 
 @app.errorhandler(404)
 def page_not_found(e):

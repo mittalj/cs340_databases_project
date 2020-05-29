@@ -1,8 +1,10 @@
 <!--File for add trainer using extension from base htnml-->
 
 {% extends "base.html" %}
+{% block head %}
+<script src ="{{ url_for('static', filename='addRemoveQual.js') }}"></script>
+{% endblock %}
 {% block content %}
-
 <h2>Add a New Personal Trainer</h2>
 <div class="formdiv" id="trainerForm">
   <form action="/addTrainer" method="POST">
@@ -42,8 +44,8 @@
         </select><br><br>
       </div>
     </div>
-    <a class="removeButton"><button id="removeQual">Remove Qualification</button></a>
-    <a class="addQualButton"><button id="addMoreQual">Add More Qualifications</button></a></br></br>
+    <button type="button" id="removeQual" onclick="remove_qual();">Remove Qualification</button>
+    <button type="button" id="addMoreQual" onclick="addQualEvent();">Add More Qualifications</button></br></br>
 
     <input type="submit" id="addTrainerSubmit" name="addTrainer" value="Add Personal Trainer">
   </form>
