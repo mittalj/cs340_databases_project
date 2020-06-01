@@ -13,7 +13,7 @@ def home():
 def members():
 	db_connection = connect_to_database()
 	query = "SELECT m.first_name, m.last_name, m.birth_date, m.gender, m.weight, p.program_name, l.branch_name,\
-	CONCAT_WS(' ', t.first_name, t.last_name) \
+	CONCAT_WS(' ', t.first_name, t.last_name), m.member_id \
 	FROM members m \
 	INNER JOIN locations l ON m.preferred_location = l.location_id \
 	LEFT JOIN programs p ON m.program_id = p.program_id \
@@ -175,9 +175,53 @@ def addProgram():
 		flash(u'A Program Has Been Added!!', 'confirmation')
 		return redirect(url_for('programs'))
 
-@app.route('/updateMember')
-def updateMember():
-	return render_template('updateMember.html')
+@app.route('/updateMember/<int:id>', methods=['POST','GET'])
+def updateMember(id):
+	print("In the function")
+	db_connection = connect_to_database()
+	if request.method=='GET':
+		print('The GET Request')
+		member_query = 'SELECT member_id, first_name, last_name, birth_date, gender, weight, program_id, preferred_location, trainer_id  FROM members WHERE member_id = %s' % id
+		member_result = execute_query(db_connection, member_query).fetchone()
+
+		if member_result == None:
+			return "No such member found!"
+
+		trainer_query = 'SELECT trainer_id, first_name, last_name FROM trainers'
+		trainer_result = execute_query(db_connection, trainer_query).fetchall()
+
+		location_query = 'SELECT location_id, branch_name FROM locations'
+		location_result = execute_query(db_connection, location_query).fetchall()
+
+		program_query = "SELECT program_id, program_name from programs"
+		program_result = execute_query(db_connection, program_query).fetchall()
+
+		print("Returning")
+		return render_template('updateMember.html', member = member_result, trainers = trainer_result, locations = location_result, programs = program_result)
+
+	elif request.method == 'POST':
+		print('The POST request')
+		member_id_input = request.form['id']
+		first_name_input = request.form['first_name']
+		last_name_input = request.form['last_name']
+		birth_date_input = request.form['birth_date']
+		gender_input = request.form['gender']
+		if gender_input == 'male':
+			gender_input = 0
+		elif gender_input == 'female':
+			gender_input = 1
+		else:
+			gender_input = 2
+		weight_input = request.form['weight']
+		program_id_input = request.form['program_id']
+		location_dropdown_input = request.form['preferred_location']
+		trainer_id_dropdown_input = request.form['trainer_id']
+		query = "UPDATE members SET first_name = %s, last_name = %s, birth_date = %s, gender = %s, weight = %s, program_id = %s, preferred_location = %s, trainer_id = %s WHERE member_id = %s"
+		data = (first_name_input, last_name_input, birth_date_input, gender_input, weight_input, program_id_input,
+				 location_dropdown_input, trainer_id_dropdown_input, member_id_input)
+		result = execute_query(db_connection, query, data)
+		print(str(result.rowcount) + " row(s) updated")
+		return redirect(url_for('members'))
 
 @app.route('/updateTrainer',methods=['POST','GET'])
 def updateTrainer():
