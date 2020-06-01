@@ -2,10 +2,11 @@
 
 {% extends "base.html" %}
 {% block head %}
+<script src ="{{ url_for('static', filename='updateFormTrainer.js') }}"></script>
 <script src ="{{ url_for('static', filename='addRemoveQual.js') }}"></script>
 {% endblock %}
 {% block content %}
-<h2>Add a New Personal Trainer</h2>
+<h2>Update Personal Trainer</h2>
 <div class="formdiv" id="UpdateTrainerForm">
   <form id="update_trainer" action="/updateTrainer/{{trainer[0]}}" method="post">
     <input type="hidden" name="trainer_id" value = "{{ trainer[0] }}">
@@ -58,7 +59,7 @@
       <div class="qualDivField" id="qualDivId">
         <label for="qual_id">Qualification</label>
         <select name='input_text' id = "qual_id" required>
-          <option value=""disabled>Select your option</option>
+          <option selected value=""disabled>Select your option</option>
           {% for q in quals %}
             <option value="{{ q[0] }}">{{ q[1] }}</option>
           {% endfor %}
