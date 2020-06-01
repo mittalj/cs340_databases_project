@@ -47,7 +47,7 @@
 
     <label for="trainer_id">Personal Trainer</label>
     <select name="trainer_id" required>
-      <option value="" disabled selected>--Please choose an option--</option>
+      <option value="" selected>" "</option>
       {% for t in trainers %}
           <option value="{{ t[0] }}">{{ t[1] }}</option>
       {% endfor %}
