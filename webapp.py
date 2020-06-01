@@ -266,6 +266,15 @@ def delete_trainer(id):
 	flash(u'A Trainer Has Been Deleted.', 'confirmation')
 	return redirect(url_for('trainers'))
 
+@app.route('/deleteMember/<int:id>')
+def deleteMember(id):
+	db_connection = connect_to_database()
+	query = "DELETE FROM members WHERE member_id = %s"
+	data = (id,)
+	result = execute_query(db_connection, query, data)
+	flash(u'A Member Has Been Deleted.', 'confirmation')
+	return redirect(url_for('members'))
+
 @app.errorhandler(404)
 def page_not_found(e):
 	return render_template('404.html'), 404
