@@ -2,6 +2,8 @@ from flask import Flask, render_template
 from flask import request, redirect, url_for, flash
 from db_connector import connect_to_database, execute_query
 import collections
+import itertools
+
 #create the web application
 app = Flask(__name__)
 app.secret_key = "SECRETKEY"
@@ -222,45 +224,68 @@ def updateMember(id):
 				 location_dropdown_input, trainer_id_dropdown_input, member_id_input)
 		result = execute_query(db_connection, query, data)
 		print(str(result.rowcount) + " row(s) updated")
+		flash(u'The Member Record has been Updated!!', 'confirmation')
 		return redirect(url_for('members'))
 
-<<<<<<< HEAD
 @app.route('/updateTrainer/<int:id>',methods=['POST','GET'])
 def updateTrainer(id):
 	db_connection = connect_to_database()
 	if request.method == 'GET':
-		# Get data for the single trainer id
+		# Get data for the single trainer id that needs to be updated
 		trainerQuery = "Select trainer_id, first_name, last_name, birth_date, gender, \
 		date_employed, capacity, location_id from trainers where trainer_id = %s"  % (id)
 		trainer_result = execute_query(db_connection, trainerQuery).fetchone()
 		if trainer_result is None:
 			return "No such trainer found!"
 
-		# Pull data for trainer quals
-		qualQuery = "Select trainer_id, qual_id from trainer_qualifications where trainer_id = %s" % (id)
+		# Pull data for all of the trainer qualifications
+		qualQuery = "Select qual_id from trainer_qualifications where trainer_id = %s" % (id)
 		qual_result = execute_query(db_connection, qualQuery).fetchall()
-		qualCountQuery = "Select count(*) from trainer_qualifications where trainer_id = %s" % (id)
-		qual_num_result = execute_query(db_connection, qualCountQuery).fetchone()
-		qualCount = qual_num_result[0]
 
-		#For testing
-		print("Num quals")
-		print(qual_num_result)
-
-		print("trainer Quals")
-		print(qualCount)
-
-		# Pull data for dropdown fields
+		# Pull data for the dropdown fields
 		query1 = "Select qual_id, qual_name from qualifications;"
 		result1 = execute_query(db_connection, query1).fetchall()
 		query2 = "SELECT location_id, branch_name from locations;"
 		result2 = execute_query(db_connection, query2).fetchall()
-		return render_template('updateTrainer.html', quals=result1, locations=result2, trainer=trainer_result, trainerQuals=qual_result, qualCount=qualCount)
-		
-=======
-@app.route('/updateTrainer',methods=['POST','GET'])
-def updateTrainer():
-	return render_template('updateTrainer.html')
+		return render_template('updateTrainer.html', quals=result1, locations=result2, trainer=trainer_result, trainerQuals=qual_result)
+
+	elif request.method == 'POST':
+		print('The POST request')
+		trainer_id_input = request.form['trainer_id']
+		first_name_input = request.form['first_name']
+		last_name_input = request.form['last_name']
+		birth_date_input = request.form['birth_date']
+		gender_input = request.form['gender']
+		if gender_input == 'male':
+			gender_input = 0
+		elif gender_input == 'female':
+			gender_input = 1
+		else:
+			gender_input = 2
+		date_employed_input = request.form['date_employed']
+		capacity_input = request.form['capacity']
+		location_dropdown_input = request.form['location_id']
+		query1 = "UPDATE trainers SET first_name = %s, last_name = %s, birth_date = %s, gender = %s, date_employed = %s, capacity = %s, location_id = %s WHERE trainer_id = %s"
+		data1 = (first_name_input, last_name_input, birth_date_input, gender_input, date_employed_input, capacity_input,
+				 location_dropdown_input, trainer_id_input)
+		result1 = execute_query(db_connection, query1, data1)
+
+		# Delete existing trainer qual records first to make it easier to work with the dynamic fields
+		query = "DELETE FROM trainer_qualifications WHERE trainer_id = %s"
+		data = (id,)
+		result = execute_query(db_connection, query, data)
+
+		# Add trainer qualifications from the updated form
+		values = request.form.getlist('input_text')
+		for v in values:
+			qual_id_dropdown_input = v
+			query2="INSERT INTO trainer_qualifications (trainer_id, qual_id) VALUES (%s, %s)"
+			data2= (id,qual_id_dropdown_input)
+			execute_query(db_connection, query2, data2)
+
+		flash(u'The Trainer Record has been Updated!!', 'confirmation')
+		print(str(result.rowcount) + " row(s) updated")
+		return redirect(url_for('trainers'))
 
 @app.route('/updateLocation/<int:id>', methods=['POST','GET'])
 def updateLocation(id):
@@ -289,9 +314,9 @@ def updateLocation(id):
 		data = (branch_name_input, address_line1_input, address_line2_input, city_input, state_input, zip_input, location_id_input)
 		result = execute_query(db_connection, query, data)
 		print(str(result.rowcount) + " row(s) updated")
+		flash(u'The Location Record has been Updated!!', 'confirmation')
 		return redirect(url_for('locations'))
 
->>>>>>> b7b79f4c256c2989fa6744e82f82a213076aa555
 @app.route('/delete_trainer/<int:id>')
 def delete_trainer(id):
 	'''deletes a person with the given id'''

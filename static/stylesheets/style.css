@@ -52,7 +52,7 @@ input[type=submit]:hover {
   width: 950px;
 }
 
-#trainerForm {
+#trainerForm, #UpdateTrainerForm {
   width: 700px;
 }
 

@@ -57,7 +57,8 @@
    <td>{{r[5]}}</td>
    <td>{{r[6]}}</td>
    <td>{{r[7]}}</td>
-   <td><a href="/updateMember/{{r[8]}}"><button>Update</button></a>
+
+   <td><input type='button' value='Update' name='Update' onclick="window.location='/updateMember/{{r[8]}}'">
    <input type='button' value='Delete' name='Delete' onclick="window.location='/deleteMember/{{r[8]}}'"</td>
   </tr>
   {% endfor %}
