@@ -14,7 +14,7 @@ def home():
 def members():
 	db_connection = connect_to_database()
 	query = "SELECT m.first_name, m.last_name, m.birth_date, m.gender, m.weight, p.program_name, l.branch_name,\
-	CONCAT_WS(' ', t.first_name, t.last_name) \
+	CONCAT_WS(' ', t.first_name, t.last_name), m.member_id \
 	FROM members m \
 	INNER JOIN locations l ON m.preferred_location = l.location_id \
 	LEFT JOIN programs p ON m.program_id = p.program_id \
@@ -25,7 +25,7 @@ def members():
 @app.route('/locations')
 def locations():
 	db_connection = connect_to_database()
-	query = "SELECT branch_name, address_line1, address_line2, city, state, zip from locations;"
+	query = "SELECT branch_name, address_line1, address_line2, city, state, zip, location_id from locations;"
 	result = execute_query(db_connection, query).fetchall()
 	return render_template('locations.html',rows=result)
 
@@ -176,10 +176,55 @@ def addProgram():
 		flash(u'A Program Has Been Added!!', 'confirmation')
 		return redirect(url_for('programs'))
 
-@app.route('/updateMember')
-def updateMember():
-	return render_template('updateMember.html')
+@app.route('/updateMember/<int:id>', methods=['POST','GET'])
+def updateMember(id):
+	print("In the function")
+	db_connection = connect_to_database()
+	if request.method=='GET':
+		print('The GET Request')
+		member_query = 'SELECT member_id, first_name, last_name, birth_date, gender, weight, program_id, preferred_location, trainer_id  FROM members WHERE member_id = %s' % id
+		member_result = execute_query(db_connection, member_query).fetchone()
 
+		if member_result == None:
+			return "No such member found!"
+
+		trainer_query = 'SELECT trainer_id, first_name, last_name FROM trainers'
+		trainer_result = execute_query(db_connection, trainer_query).fetchall()
+
+		location_query = 'SELECT location_id, branch_name FROM locations'
+		location_result = execute_query(db_connection, location_query).fetchall()
+
+		program_query = "SELECT program_id, program_name from programs"
+		program_result = execute_query(db_connection, program_query).fetchall()
+
+		print("Returning")
+		return render_template('updateMember.html', member = member_result, trainers = trainer_result, locations = location_result, programs = program_result)
+
+	elif request.method == 'POST':
+		print('The POST request')
+		member_id_input = request.form['id']
+		first_name_input = request.form['first_name']
+		last_name_input = request.form['last_name']
+		birth_date_input = request.form['birth_date']
+		gender_input = request.form['gender']
+		if gender_input == 'male':
+			gender_input = 0
+		elif gender_input == 'female':
+			gender_input = 1
+		else:
+			gender_input = 2
+		weight_input = request.form['weight']
+		program_id_input = request.form['program_id']
+		location_dropdown_input = request.form['preferred_location']
+		trainer_id_dropdown_input = request.form['trainer_id']
+		query = "UPDATE members SET first_name = %s, last_name = %s, birth_date = %s, gender = %s, weight = %s, program_id = %s, preferred_location = %s, trainer_id = %s WHERE member_id = %s"
+		data = (first_name_input, last_name_input, birth_date_input, gender_input, weight_input, program_id_input,
+				 location_dropdown_input, trainer_id_dropdown_input, member_id_input)
+		result = execute_query(db_connection, query, data)
+		print(str(result.rowcount) + " row(s) updated")
+		return redirect(url_for('members'))
+
+<<<<<<< HEAD
 @app.route('/updateTrainer/<int:id>',methods=['POST','GET'])
 def updateTrainer(id):
 	db_connection = connect_to_database()
@@ -212,6 +257,41 @@ def updateTrainer(id):
 		result2 = execute_query(db_connection, query2).fetchall()
 		return render_template('updateTrainer.html', quals=result1, locations=result2, trainer=trainer_result, trainerQuals=qual_result, qualCount=qualCount)
 		
+=======
+@app.route('/updateTrainer',methods=['POST','GET'])
+def updateTrainer():
+	return render_template('updateTrainer.html')
+
+@app.route('/updateLocation/<int:id>', methods=['POST','GET'])
+def updateLocation(id):
+	print("In the function")
+	db_connection = connect_to_database()
+	if request.method == 'GET':
+		location_query = 'SELECT location_id, branch_name, address_line1, address_line2, city, state, zip from locations WHERE location_id = %s' % id
+		location_result = execute_query(db_connection, location_query).fetchone()
+
+		if location_result == None:
+			return "No such location found!"
+
+		print("Returning")
+		return render_template('updateLocation.html', location = location_result)
+
+	elif request.method == 'POST':
+		print('The POST request')
+		location_id_input = request.form['id']
+		branch_name_input = request.form['branch_name']
+		address_line1_input = request.form['address_line1']
+		address_line2_input = request.form['address_line2']
+		city_input = request.form['city']
+		state_input = request.form['state']
+		zip_input = request.form['zip']
+		query = "UPDATE locations SET branch_name = %s, address_line1 = %s, address_line2 = %s, city = %s, state = %s, zip = %s WHERE location_id = %s"
+		data = (branch_name_input, address_line1_input, address_line2_input, city_input, state_input, zip_input, location_id_input)
+		result = execute_query(db_connection, query, data)
+		print(str(result.rowcount) + " row(s) updated")
+		return redirect(url_for('locations'))
+
+>>>>>>> b7b79f4c256c2989fa6744e82f82a213076aa555
 @app.route('/delete_trainer/<int:id>')
 def delete_trainer(id):
 	'''deletes a person with the given id'''
@@ -221,6 +301,15 @@ def delete_trainer(id):
 	result = execute_query(db_connection, query, data)
 	flash(u'A Trainer Has Been Deleted.', 'confirmation')
 	return redirect(url_for('trainers'))
+
+@app.route('/deleteMember/<int:id>')
+def deleteMember(id):
+	db_connection = connect_to_database()
+	query = "DELETE FROM members WHERE member_id = %s"
+	data = (id,)
+	result = execute_query(db_connection, query, data)
+	flash(u'A Member Has Been Deleted.', 'confirmation')
+	return redirect(url_for('members'))
 
 @app.errorhandler(404)
 def page_not_found(e):
