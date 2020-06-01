@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from flask import request, redirect, url_for, flash
 from db_connector import connect_to_database, execute_query
+import collections
 #create the web application
 app = Flask(__name__)
 app.secret_key = "SECRETKEY"
@@ -179,14 +180,38 @@ def addProgram():
 def updateMember():
 	return render_template('updateMember.html')
 
-@app.route('/updateTrainer',methods=['POST','GET'])
-def updateTrainer():
-	return render_template('updateTrainer.html')
+@app.route('/updateTrainer/<int:id>',methods=['POST','GET'])
+def updateTrainer(id):
+	db_connection = connect_to_database()
+	if request.method == 'GET':
+		# Get data for the single trainer id
+		trainerQuery = "Select trainer_id, first_name, last_name, birth_date, gender, \
+		date_employed, capacity, location_id from trainers where trainer_id = %s"  % (id)
+		trainer_result = execute_query(db_connection, trainerQuery).fetchone()
+		if trainer_result is None:
+			return "No such trainer found!"
 
-@app.route('/updateLocation')
-def updateLocation():
-	return render_template('updateLocation.html')
+		# Pull data for trainer quals
+		qualQuery = "Select trainer_id, qual_id from trainer_qualifications where trainer_id = %s" % (id)
+		qual_result = execute_query(db_connection, qualQuery).fetchall()
+		qualCountQuery = "Select count(*) from trainer_qualifications where trainer_id = %s" % (id)
+		qual_num_result = execute_query(db_connection, qualCountQuery).fetchone()
+		qualCount = qual_num_result[0]
 
+		#For testing
+		print("Num quals")
+		print(qual_num_result)
+
+		print("trainer Quals")
+		print(qualCount)
+
+		# Pull data for dropdown fields
+		query1 = "Select qual_id, qual_name from qualifications;"
+		result1 = execute_query(db_connection, query1).fetchall()
+		query2 = "SELECT location_id, branch_name from locations;"
+		result2 = execute_query(db_connection, query2).fetchall()
+		return render_template('updateTrainer.html', quals=result1, locations=result2, trainer=trainer_result, trainerQuals=qual_result, qualCount=qualCount)
+		
 @app.route('/delete_trainer/<int:id>')
 def delete_trainer(id):
 	'''deletes a person with the given id'''
