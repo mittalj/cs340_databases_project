@@ -83,6 +83,13 @@ def addMember():
 		program_id_input = request.form['program_id']
 		location_dropdown_input = request.form['preferred_location']
 		trainer_id_dropdown_input = request.form['trainer_id']
+
+		if program_id_input == "":
+			program_id_input = None
+
+		if trainer_id_dropdown_input == "":
+			trainer_id_dropdown_input = None
+
 		query1 = "INSERT INTO members (first_name, last_name, birth_date, gender, weight, program_id, preferred_location, trainer_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
 		data1 = (first_name_input,last_name_input,birth_date_input,gender_input, weight_input, program_id_input, location_dropdown_input, trainer_id_dropdown_input)
 		result1 = execute_query(db_connection, query1, data1)
@@ -200,6 +207,7 @@ def updateMember(id):
 		program_result = execute_query(db_connection, program_query).fetchall()
 
 		print("Returning")
+		flash(u'A Member Has Been Updated.', 'confirmation')
 		return render_template('updateMember.html', member = member_result, trainers = trainer_result, locations = location_result, programs = program_result)
 
 	elif request.method == 'POST':
@@ -219,12 +227,18 @@ def updateMember(id):
 		program_id_input = request.form['program_id']
 		location_dropdown_input = request.form['preferred_location']
 		trainer_id_dropdown_input = request.form['trainer_id']
+
+		if program_id_input == "":
+			program_id_input = None
+
+		if trainer_id_dropdown_input == "":
+			trainer_id_dropdown_input = None
+
 		query = "UPDATE members SET first_name = %s, last_name = %s, birth_date = %s, gender = %s, weight = %s, program_id = %s, preferred_location = %s, trainer_id = %s WHERE member_id = %s"
 		data = (first_name_input, last_name_input, birth_date_input, gender_input, weight_input, program_id_input,
 				 location_dropdown_input, trainer_id_dropdown_input, member_id_input)
 		result = execute_query(db_connection, query, data)
 		print(str(result.rowcount) + " row(s) updated")
-		flash(u'The Member Record has been Updated!!', 'confirmation')
 		return redirect(url_for('members'))
 
 @app.route('/updateTrainer/<int:id>',methods=['POST','GET'])
