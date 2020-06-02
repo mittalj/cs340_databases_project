@@ -31,7 +31,7 @@
     <h3>Gym Details</h3>
     <label for="program_id">Program</label>
     <select name="program_id">
-      <option value="" disabled selected>--Please choose an option--</option>
+       <option selected value=""></option>
       {% for p in programs %}
           <option value="{{ p[0] }}">{{ p[1] }}</option>
       {% endfor %}
@@ -39,17 +39,16 @@
 
     <label for="preferred_location">Preferred Location</label>
     <select name="preferred_location" required>
-    <option value="" disabled selected>--Please choose an option--</option>
       {% for l in locations %}
           <option value="{{ l[0] }}">{{ l[1] }}</option>
       {% endfor %}
     </select>
 
     <label for="trainer_id">Personal Trainer</label>
-    <select name="trainer_id" required>
-      <option value="" disabled selected>--Please choose an option--</option>
-      {% for t in trainers %}
-          <option value="{{ t[0] }}">{{ t[1] }}</option>
+    <select name="trainer_id"> 
+       <option selected value=""></option>
+=      {% for t in trainers %}
+          <option value="{{ t[0] }}">{{ t[1] }} {{ t[2] }}</option>
       {% endfor %}
     </select><br><br>
 
