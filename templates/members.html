@@ -17,12 +17,17 @@
 {% endif %}
 {% endwith %}
 
+
+<form id='search_members' action='' method='POST'>
+<!--- this form does not submit directly, the button handles all the interaction with backend -->
+    <label> Search members for first name starting with:</label>
+    <input id='first_name' type='text' name='first_name' value=''>
+    <input type="button" value="Search" onclick="window.location='/search'">
+</form>
+
+
 <h2>Fitness Club Members</h2>
 	 <!-- Search form -->
-<form class="form-inline mr-auto">
-  <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-  <button class="btn btn-unique btn-rounded btn-sm my-0" type="submit">Search</button>
-</form>
    <table class="table table-hover table-condensed member-table">
    	<thead>
    	<tr>
@@ -53,12 +58,19 @@
         <td>Other</td>
    {% endif %}
 
-   <td>{{r[4]}}</td>
-   <td>{{r[5]}}</td>
+        <td>{{r[4]}}</td>
+
+   {% if r[5] is none %}
+        <td></td>
+   {% else %}
+        <td>{{r[5]}}</td>
+   {% endif %}
+
+
+
    <td>{{r[6]}}</td>
    <td>{{r[7]}}</td>
-
-   <td><input type='button' value='Update' name='Update' onclick="window.location='/updateMember/{{r[8]}}'">
+   <td><a href="/updateMember/{{r[8]}}"><button>Update</button></a>
    <input type='button' value='Delete' name='Delete' onclick="window.location='/deleteMember/{{r[8]}}'"</td>
   </tr>
   {% endfor %}
