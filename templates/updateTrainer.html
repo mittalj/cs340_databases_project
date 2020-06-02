@@ -4,6 +4,7 @@
 {% block head %}
 <script src ="{{ url_for('static', filename='updateFormTrainer.js') }}"></script>
 <script src ="{{ url_for('static', filename='addRemoveQual.js') }}"></script>
+<script src ="{{ url_for('static', filename='validation.js') }}"></script>
 {% endblock %}
 {% block content %}
 <h2>Update Personal Trainer</h2>
@@ -11,11 +12,11 @@
   <form id="update_trainer" action="/updateTrainer/{{trainer[0]}}" method="post">
     <input type="hidden" name="trainer_id" value = "{{ trainer[0] }}">
     <label for="first_name">First Name</label>
-    <input type="text" name="first_name" id="first_name" value= "{{ trainer[1] }}" required>
+    <input type="text" name="first_name" id="first_name" value= "{{ trainer[1] }}" pattern="[a-zA-Z ]+" title="Special characters and numeric values are not allowed." required>
     <label for="last_name">Last Name</label>
-    <input type="text" name="last_name" id="last_name" value= "{{ trainer[2] }}" required></br></br>
+    <input type="text" name="last_name" id="last_name" value= "{{ trainer[2] }}" pattern="[a-zA-Z ]+" title="Special characters and numeric values are not allowed." required></br></br>
     <label for="birth_date">Date of Birth</label>
-    <input type="date" name="birth_date" id="birth_date" value= "{{ trainer[3] }}" required>
+    <input type="date" name="birth_date" id="birth_date" value= "{{ trainer[3] }}" onchange="checkDOB()" required>
     <label for="gender">Gender</label>
     <select name="gender" required>
       <option value="" disabled selected>Select your option</option>
@@ -69,7 +70,7 @@
     <button type="button" id="removeQual" onclick="remove_qual();">Remove Qualification</button>
     <button type="button" id="addMoreQual" onclick="addQualEvent();">Add More Qualifications</button></br></br>
 
-    <input type="submit" id="updateTrainerSubmit" name="updateTrainer" value="Update Personal Trainer">
+    <input type="submit" id="updateTrainerSubmit" name="updateTrainer" onclick="checkDOB()" value="Update Personal Trainer">
   </form>
 </div>
 

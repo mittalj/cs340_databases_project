@@ -5,7 +5,6 @@ function addQualEvent() {
   selectID =  newClone.childNodes[3].id;
   newClone.id = newClone.id + count;
   document.getElementById("mainQualDiv").appendChild(newClone);
-  //document.getElementById(selectID).value = '';
 };
 
 function remove_qual()

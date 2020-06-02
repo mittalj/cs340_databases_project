@@ -1,5 +1,4 @@
 window.addEventListener('load', function() {
-  //var qualCount = document.getElementById("qualCount").value;
   var qualLength = document.getElementsByName('tQuals').length
   var trainerQuals = [];
   for (i=0; i < qualLength; i++)

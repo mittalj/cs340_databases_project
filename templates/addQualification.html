@@ -7,7 +7,7 @@
 <div class="formdiv">
 <form action="/addQualification" method="POST">
   <label for="qual_name">Qualification</label>
-  <input type="text" name="qual_name" id="qual_name" required><br><br>
+  <input type="text" name="qual_name" id="qual_name" pattern="[a-zA-Z ]+" title="Special characters and numeric values are not allowed." required><br><br>
   <label for="is_cert">Is it a Certification?</label>
   <select name="is_cert" required>
     <option value="" disabled selected>Select your option</option>
