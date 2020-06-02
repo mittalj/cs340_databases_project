@@ -6,7 +6,7 @@
 <h2>Update Member</h2>
 <div class="formdiv" id="memberForm">
 
- 	<form id ="updateMember" action = "/updateMember/{{member[0] }}" method="POST">
+ 	<form id ="updateMember" action = "/updateMember/{{member[0]}}" method="POST">
 	   	<h3>Personal Details</h3>
 	   	 <input type="hidden" name="id" id="id" value = "{{ member[0] }}">
 	    <label for="first_name">First Name</label>
@@ -45,15 +45,30 @@
 	    <h3>Gym Details</h3>
 	    <label for="program_id">Program</label>
 	    <select name="program_id">
-	      {% for p in programs %}
-	      	  {{p[0]}}
-	      	  {{member[6]}}
-	      	  {% if p[0] == member[6] %}
-	      	        <option selected value="{{ p[0] }}">{{ p[1] }}</option>
-	      	   {% else %}
-	      	        <option value="{{ p[0] }}">{{ p[1] }}</option>
-	      	   {% endif %}
-	      {% endfor %}
+	   
+	        {% if None == member[6] %}
+	      	    <option selected value=""></option>
+
+	      		{% for p in programs %}
+	     	  		{{p[0]}}
+		      	  	{{member[6]}}
+		      		<option value="{{ p[0] }}">{{ p[1] }}</option>
+	      		{% endfor %} 
+
+	    	{% else %}
+	      	    <option value=""></option>
+		       {% for p in programs %}
+		      	  {{p[0]}}
+		      	  {{member[6]}}
+
+		      	   {%  if p[0] == member[6] %}
+		      	        <option selected value="{{ p[0] }}">{{ p[1] }}</option>
+		      	   {% else %}
+		      	        <option value="{{ p[0] }}">{{ p[1] }}</option>
+		      	   {% endif %}
+		      	{% endfor %} 
+	      	{% endif %}
+
 	    </select><br><br>
 
 	    <label for="preferred_location">Preferred Location</label>
@@ -65,26 +80,42 @@
 	      	        <option selected value="{{ l[0] }}">{{ l[1] }}</option>
 	      	   {% else %}
 	      	        <option value="{{ l[0] }}">{{ l[1] }}</option>
-	      	   {% endif %}
+	      	   {% endif %}	      	  
 	      {% endfor %}
 	    </select>
 
 	    <label for="trainer_id">Personal Trainer</label>
-	    <select name="trainer_id" value ="{{ member[8] }}" required>
-	       {% for t in trainers %}
-	      	  {{t[0]}}
-	      	  {{member[8]}}
-	      	  {% if t[0] == member[8] %}
-	      	        <option selected value="{{ t[0] }}">{{ t[1] }} {{ t[2] }}</option>
-	      	   {% else %}
-	      	        <option value="{{ t[0] }}">{{ t[1] }} {{ t[2] }}</option>
-	      	   {% endif %}
-	      {% endfor %}
-	    </select></br></br>
-	    <input type="submit" value="Update Member">
+	    <select name="trainer_id" value ="{{ member[8] }}">
+
+	    	{% if None == member[8] %}
+	      	    <option selected value=""></option>
+
+	      		{% for t in trainers %}
+	     	  		{{t[0]}}
+		      	  	{{member[8]}}
+		      		<option value="{{ t[0] }}">{{ t[1] }} {{ t[2] }}</option>
+	      		{% endfor %} 
+
+	    	{% else %}
+	      	    <option value=""></option>
+		       {% for t in trainers %}
+		      	  {{t[0]}}
+		      	  {{member[8]}}
+
+		      	   {%  if t[0] == member[8] %}
+		      	        <option selected value="{{ t[0] }}">{{ t[1] }} {{ t[2] }}</option>
+		      	   {% else %}
+		      	        <option value="{{ t[0] }}">{{ t[1] }} {{ t[2] }}</option>
+		      	   {% endif %}
+		      	{% endfor %} 
+	      	{% endif %}
+
+	      	  
+	    </select>
+	    <input type="submit" value="Submit">
 
     </form>
-
+	
 </div>
 
 {% endblock %}
