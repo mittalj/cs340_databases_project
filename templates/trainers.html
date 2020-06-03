@@ -20,47 +20,44 @@
 
 <h2>Personal Trainers</h2>
 <table class="table table-hover table-condensed trainer-table">
-<thead>
-<tr>
-  <th>First Name</th>
-  <th>Last Name</th>
-  <th>DOB</th>
-  <th>Gender</th>
-  <th>Date of Employment</th>
-  <th>Capacity</th>
-  <th>Location</th>
-  <th>Qualifications</th>
-  <th>Changes Required?</th>
-</tr>
-</thead>
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>DOB</th>
+      <th>Gender</th>
+      <th>Date of Employment</th>
+      <th>Capacity</th>
+      <th>Location</th>
+      <th>Qualifications</th>
+      <th>Changes Required?</th>
+    </tr>
+  </thead>
 
-<tbody>
-  {% for r in rows %}
-  <tr>
-   <td>{{r[0]}}</td>
-   <td>{{r[1]}}</td>
-   <td>{{r[2]}}</td>
+  <tbody>
+    {% for r in rows %}
+    <tr>
+     <td>{{r[0]}}</td>
+     <td>{{r[1]}}</td>
+     <td>{{r[2]}}</td>
 
+     {% if r[3] == 0 %}
+       <td>Male</td>
+     {% elif r[3] == 1 %}
+       <td>Female</td>
+     {% else %}
+       <td>Other</td>
+     {% endif %}
 
-   {% if r[3] == 0 %}
-        <td>Male</td>
-   {% elif r[3] == 1 %}
-        <td>Female</td>
-   {% else %}
-        <td>Other</td>
-   {% endif %}
-
-
-   <td>{{r[4]}}</td>
-   <td>{{r[5]}}</td>
-   <td>{{r[6]}}</td>
-   <td>{{r[7]}}</td>
-   <td><input type='button' value='Update' name='Update' onclick="window.location='/updateTrainer/{{r[8]}}'">
-   <input type='button' value='Delete' name='Delete' onclick="window.location='/delete_trainer/{{r[8]}}'"></td>
-  </tr>
-  {% endfor %}
-</tbody>
-
+     <td>{{r[4]}}</td>
+     <td>{{r[5]}}</td>
+     <td>{{r[6]}}</td>
+     <td>{{r[7]}}</td>
+     <td><input type='button' value='Update' name='Update' onclick="window.location='/updateTrainer/{{r[8]}}'">
+     <input type='button' value='Delete' name='Delete' onclick="window.location='/delete_trainer/{{r[8]}}'"></td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
 
 <a class="addButton" href="{{url_for('addTrainer')}}"><button>Add a Trainer</button></a>

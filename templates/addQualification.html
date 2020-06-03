@@ -5,17 +5,17 @@
 
 <h2>Add a New Qualification</h2>
 <div class="formdiv">
-<form action="/addQualification" method="POST">
-  <label for="qual_name">Qualification</label>
-  <input type="text" name="qual_name" id="qual_name" pattern="[a-zA-Z ]+" title="Special characters and numeric values are not allowed." required><br><br>
-  <label for="is_cert">Is it a Certification?</label>
-  <select name="is_cert" required>
-    <option value="" disabled selected>Select your option</option>
-    <option value="yes">Yes</option>
-    <option value="no">No</option>
-  </select><br><br>
-  <input type="submit" name="addQual" value="Add Qualification">
-</form>
+  <form action="/addQualification" method="POST">
+    <label for="qual_name">Qualification</label>
+    <input type="text" name="qual_name" id="qual_name" pattern="[a-zA-Z ]+" title="Special characters and numeric values are not allowed." required><br><br>
+    <label for="is_cert">Is it a Certification?</label>
+    <select name="is_cert" required>
+      <option value="" disabled selected>Select your option</option>
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </select><br><br>
+    <input type="submit" name="addQual" value="Add Qualification">
+  </form>
 </div>
 
 {% endblock %}

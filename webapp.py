@@ -120,17 +120,21 @@ def addLocation():
 @app.route('/addTrainer',methods=['POST','GET'])
 def addTrainer():
 	db_connection = connect_to_database()
+	# Populate data for dropdown fields on the template form
 	if request.method == 'GET':
 		query1 = "Select qual_id, qual_name from qualifications;"
 		result1 = execute_query(db_connection, query1).fetchall()
 		query2 = "SELECT location_id, branch_name from locations;"
 		result2 = execute_query(db_connection, query2).fetchall()
 		return render_template('addTrainer.html', quals=result1, locations=result2)
+	# When form is submitted, get data from form fields and commit it to the database
 	elif request.method == 'POST':
+		# First insert a trainer record into the trainers table
 		first_name_input = request.form['first_name']
 		last_name_input = request.form['last_name']
 		birth_date_input = request.form['birth_date']
 		gender_input = request.form['gender']
+		# Convert gender values to integers
 		if gender_input == 'male':
 			gender_input = 0
 		elif gender_input == 'female':
@@ -144,8 +148,11 @@ def addTrainer():
 		VALUES (%s,%s,%s,%s,%s,%s,%s)"
 		data1 = (first_name_input,last_name_input,birth_date_input,gender_input,date_employed_input,capacity_input,location_dropdown_input)
 		result1 = execute_query(db_connection, query1, data1)
+		# Get the value of the inserted trainer id
 		myTrainerID = result1.lastrowid
+		# Retreive qualification values from the form
 		values = request.form.getlist('input_text')
+		# Run a loop to insert a trainer qual record into the trainer_qualifications table
 		for v in values:
 			qual_id_dropdown_input = v
 			query2="INSERT INTO trainer_qualifications (trainer_id, qual_id) VALUES (%s, %s)"
@@ -158,9 +165,11 @@ def addTrainer():
 def addQualification():
 	if request.method == 'GET':
 		return render_template('addQualification.html')
+	# When form is submitted, get data from form fields and commit it to the database
 	elif request.method == 'POST':
 		qual_name_input = request.form['qual_name']
 		is_cert_input = request.form['is_cert']
+		# Convert cert values to integers
 		if is_cert_input == 'yes':
 			is_cert_input = 1
 		else:
@@ -176,6 +185,7 @@ def addQualification():
 def addProgram():
 	if request.method == 'GET':
 		return render_template('addProgram.html')
+	# When form is submitted, get data from form fields and commit it to the database
 	elif request.method == 'POST':
 		program_name_input = request.form['program_name']
 		db_connection = connect_to_database()
@@ -256,14 +266,15 @@ def updateTrainer(id):
 		qualQuery = "Select qual_id from trainer_qualifications where trainer_id = %s" % (id)
 		qual_result = execute_query(db_connection, qualQuery).fetchall()
 
-		# Pull data for the dropdown fields
+		# Pull data for the dropdown fields on the update form
 		query1 = "Select qual_id, qual_name from qualifications;"
 		result1 = execute_query(db_connection, query1).fetchall()
 		query2 = "SELECT location_id, branch_name from locations;"
 		result2 = execute_query(db_connection, query2).fetchall()
 		return render_template('updateTrainer.html', quals=result1, locations=result2, trainer=trainer_result, trainerQuals=qual_result)
-
+	# When the form is submitted, commit the updates into the database
 	elif request.method == 'POST':
+		# First update the trainer record in the trainers table
 		print('The POST request')
 		trainer_id_input = request.form['trainer_id']
 		first_name_input = request.form['first_name']
@@ -284,13 +295,14 @@ def updateTrainer(id):
 				 location_dropdown_input, trainer_id_input)
 		result1 = execute_query(db_connection, query1, data1)
 
-		# Delete existing trainer qual records first to make it easier to work with the dynamic fields
+		# Delete existing trainer qual records first to make it easier to work with the dynamic fields for trainer qualifications
 		query = "DELETE FROM trainer_qualifications WHERE trainer_id = %s"
 		data = (id,)
 		result = execute_query(db_connection, query, data)
 
 		# Add trainer qualifications from the updated form
 		values = request.form.getlist('input_text')
+		# Run a loop to add each trainer qualification record into the database 
 		for v in values:
 			qual_id_dropdown_input = v
 			query2="INSERT INTO trainer_qualifications (trainer_id, qual_id) VALUES (%s, %s)"

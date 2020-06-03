@@ -20,21 +20,19 @@
          <a class="navbar-brand" href="#">GreatLife Fitness Clubs </a>
        </div>
        <ul class="nav navbar-nav">
-       <li style = "color:black">
-         <li><a href="{{url_for('home')}}">Home</a></li>
-         <li><a href="{{url_for('members')}}">Members</a></li>
-         <li><a href="{{url_for('programs')}}">Programs</a></li>
-         <li><a href="{{url_for('locations')}}">Locations</a></li>
-         <li><a href="{{url_for('trainers')}}">Personal Trainers</a></li>
-         <li><a href="{{url_for('qualifications')}}">Qualifications</a></li>
-       </li>
+         <li style = "color:black">
+           <li><a href="{{url_for('home')}}">Home</a></li>
+           <li><a href="{{url_for('members')}}">Members</a></li>
+           <li><a href="{{url_for('programs')}}">Programs</a></li>
+           <li><a href="{{url_for('locations')}}">Locations</a></li>
+           <li><a href="{{url_for('trainers')}}">Personal Trainers</a></li>
+           <li><a href="{{url_for('qualifications')}}">Qualifications</a></li>
+         </li>
        </ul>
      </div>
     </nav>
     <!--end of Navigation bar-->
 
-  {% block content %}
-
-  {% endblock %}
+  {% block content %}{% endblock %}
   </body>
 </html>

@@ -5,39 +5,39 @@
 
 <!--https://flask.palletsprojects.com/en/1.1.x/patterns/flashing/-->
 {% with confirmations = get_flashed_messages(category_filter=["confirmation"]) %}
-{% if confirmations %}
-<div class="confirmation">
-  <a class="close" href="#">×</a>
-  <ul>
-    {%- for msg in confirmations %}
-      <li class="confirmMessage">{{ msg }}</li>
-    {% endfor -%}
-  </ul>
-</div>
-{% endif %}
+  {% if confirmations %}
+    <div class="confirmation">
+      <a class="close" href="#">×</a>
+      <ul>
+        {%- for msg in confirmations %}
+          <li class="confirmMessage">{{ msg }}</li>
+        {% endfor -%}
+      </ul>
+    </div>
+  {% endif %}
 {% endwith %}
 
 <h2>Qualifications for Trainers</h2>
 <table class="table table-hover table-condensed qual-table">
- <thead>
- <tr>
-   <th>Qualification </th>
-   <th>Is Certification? </th>
- </tr>
-</thead>
+  <thead>
+   <tr>
+     <th>Qualification </th>
+     <th>Is Certification? </th>
+   </tr>
+  </thead>
 
-<tbody>
-  {% for r in rows %}
-  <tr>
-   <td>{{r[0]}}</td>
-      {% if r[1] == 1 %}
-           <td>Yes</td>
-       {% else %}
-           <td>No</td>
-       {% endif %}
-  </tr>
-  {% endfor %}
-</tbody>
+  <tbody>
+    {% for r in rows %}
+      <tr>
+        <td>{{r[0]}}</td>
+          {% if r[1] == 1 %}
+            <td>Yes</td>
+          {% else %}
+            <td>No</td>
+          {% endif %}
+      </tr>
+    {% endfor %}
+  </tbody>
 </table>
 
 <a class = "addButton" href="{{url_for('addQualification')}}"><button>Add a Qualification</button></a>

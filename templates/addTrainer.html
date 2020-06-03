@@ -1,13 +1,15 @@
 <!--File for add trainer using extension from base htnml-->
 
 {% extends "base.html" %}
+
 {% block head %}
 <script src ="{{ url_for('static', filename='addRemoveQual.js') }}"></script>
 <script src ="{{ url_for('static', filename='validation.js') }}"></script>
 {% endblock %}
+
 {% block content %}
 <h2>Add a New Personal Trainer</h2>
-<div class="formdiv" id="trainerForm">
+<div class"formdiv" id="trainerForm">
   <form action="/addTrainer" method="POST">
     <label for="first_name">First Name</label>
     <input type="text" name="first_name" id="first_name" pattern="[a-zA-Z ]+" title="Special characters and numeric values are not allowed." required>
@@ -29,25 +31,25 @@
     <label for="location_id">Location</label>
     <select name="location_id" required>
       <option selected value="" disabled>Select your option</option>
-      {% for l in locations %}
+        {% for l in locations %}
         <option value="{{ l[0] }}">{{ l[1] }}</option>
-      {% endfor %}
+        {% endfor %}
     </select><br><br>
 
     <div id="mainQualDiv">
       <div class="qualDivField" id="qualDivId">
         <label for="qual_id">Qualification</label>
         <select name='input_text' id = "qual_id" required>
-         <option selected value="" disabled>Select your option</option>
-          {% for q in quals %}
-            <option value="{{ q[0] }}">{{ q[1] }}</option>
-          {% endfor %}
+          <option selected value="" disabled>Select your option</option>
+            {% for q in quals %}
+              <option value="{{ q[0] }}">{{ q[1] }}</option>
+            {% endfor %}
         </select><br><br>
       </div>
     </div>
+    
     <button type="button" id="removeQual" onclick="remove_qual();">Remove Qualification</button>
     <button type="button" id="addMoreQual" onclick="addQualEvent();">Add More Qualifications</button></br></br>
-
     <input type="submit" id="addTrainerSubmit" name="addTrainer" value="Add Personal Trainer">
   </form>
 </div>
