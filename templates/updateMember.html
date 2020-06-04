@@ -3,6 +3,12 @@
 {% extends "base.html" %}
 {% block content %}
 
+
+{% block head %}
+<script src ="{{ url_for('static', filename='validation.js') }}"></script>
+{% endblock %}
+
+
 <h2>Update Member</h2>
 <div class="formdiv" id="memberForm">
 
@@ -10,13 +16,13 @@
 	   	<h3>Personal Details</h3>
 	   	 <input type="hidden" name="id" id="id" value = "{{ member[0] }}">
 	    <label for="first_name">First Name</label>
-	    <input type="text" name="first_name" id="first_name" value = {{member[1]}} required>
+	    <input type="text" name="first_name" id="first_name" value = {{member[1]}} pattern="[a-zA-Z ]+" title="Special characters and numeric values are not allowed."required>
 
 	    <label for="last_name">Last Name</label>
-	    <input type="text" name="last_name" id="last_name" value ="{{ member[2] }}" required><br><br>
+	    <input type="text" name="last_name" id="last_name" value ="{{ member[2] }}" pattern="[a-zA-Z ]+" title="Special characters and numeric values are not allowed." required><br><br>
 
 	    <label for="birth_date">Date of Birth</label>
-	    <input type="date" name="birth_date" id="birth_date" value ="{{ member[3] }}"required>
+	    <input type="date" name="birth_date" id="birth_date" value ="{{ member[3] }}" onchange="checkDOB()" required>
 
 
 		<label for="gender">Gender</label>
@@ -40,7 +46,7 @@
 
 
 	    <label for="weight">Weight (in lbs)</label>
-	    <input type="text" name="weight" id="weight" value ="{{ member[5] }}"required><br><br>
+	    <input type="number" name="weight" id="weight" value ="{{ member[5] }}" min="50" required><br><br>
 
 	    <h3>Gym Details</h3>
 	    <label for="program_id">Program</label>
