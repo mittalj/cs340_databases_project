@@ -3,19 +3,23 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% block head %}
+<script src ="{{ url_for('static', filename='validation.js') }}"></script>
+{% endblock %}
+
 <h2>Add a New Member</h2>
 <div class="formdiv" id="memberForm">
     <form action = "/addMember" method="POST">
     <h3>Personal Details</h3>
 
     <label for="first_name">First Name</label>
-    <input type="text" name="first_name" id="first_name" required>
+    <input type="text" name="first_name" id="first_name" pattern="[a-zA-Z ]+" title="Special characters and numeric values are not allowed." required>
 
     <label for="last_name">Last Name</label>
-    <input type="text" name="last_name" id="last_name" required><br><br>
+    <input type="text" name="last_name" id="last_name" pattern="[a-zA-Z ]+" title="Special characters and numeric values are not allowed."required><br><br>
 
     <label for="birth_date">Date of Birth</label>
-    <input type="date" name="birth_date" id="birth_date" required>
+    <input type="date" name="birth_date" id="birth_date" onchange="checkDOB()" required>
 
     <label for="gender">Gender</label>
     <select name="gender" required>
@@ -26,7 +30,7 @@
     </select>
 
     <label for="weight">Weight (in lbs)</label>
-    <input type="text" name="weight" id="weight" required><br><br>
+    <input type="number" name="weight" id="weight" min="50" required><br><br>
 
     <h3>Gym Details</h3>
     <label for="program_id">Program</label>
@@ -38,14 +42,14 @@
     </select><br><br>
 
     <label for="preferred_location">Preferred Location</label>
-    <select name="preferred_location" required>
+    <select name="preferred_location" id="preferred_location" required>
       {% for l in locations %}
           <option value="{{ l[0] }}">{{ l[1] }}</option>
       {% endfor %}
     </select>
 
     <label for="trainer_id">Personal Trainer</label>
-    <select name="trainer_id"> 
+    <select name="trainer_id" id="trainer_id"> 
        <option selected value=""></option>
 =      {% for t in trainers %}
           <option value="{{ t[0] }}">{{ t[1] }} {{ t[2] }}</option>
