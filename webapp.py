@@ -353,6 +353,25 @@ def delete_trainer(id):
 	flash(u'A Trainer Has Been Deleted.', 'confirmation')
 	return redirect(url_for('trainers'))
 
+@app.route('/search', methods=['POST', 'GET'])
+def search():
+	if request.method == 'GET':
+		print("get request")
+		return render_template('search.html')
+	elif request.method == 'POST':
+		print("post request")
+		db_connection = connect_to_database()
+		search_input = request.form['first_name']
+		query = "SELECT m.first_name, m.last_name, m.birth_date, m.gender, m.weight, p.program_name, l.branch_name,\
+		CONCAT_WS(' ', t.first_name, t.last_name), m.member_id \
+		FROM members m \
+		INNER JOIN locations l ON m.preferred_location = l.location_id \
+		LEFT JOIN programs p ON m.program_id = p.program_id \
+		LEFT JOIN trainers t ON m.trainer_id = t.trainer_id where m.first_name = %s OR m.last_name = %s;"
+		data = (search_input,search_input)
+		result = execute_query(db_connection, query, data)
+		return render_template('search.html', rows=result)
+
 @app.route('/deleteMember/<int:id>')
 def deleteMember(id):
 	db_connection = connect_to_database()
