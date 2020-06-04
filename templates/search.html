@@ -18,20 +18,15 @@
 {% endwith %}
 
 
-<form id='search_members' action='' method=''>
+<form action='/search' method='POST'>
 <!--- this form does not submit directly, the button handles all the interaction with backend -->
-    <label> Search members for first name starting with:</label>
-    <input id='first_name_search_string' type='text' name='first_name_search_string' value=''>
-    <input type="button" value="Search" onclick="window.location='/search'">
+    <label> Search for members by first name or last name:</label>
+    <input id='first_name' type='text' name='first_name' value=''>
+    <input type="submit" value="search" name= "search" onclick="window.location='/search'">
 </form>
 
 
 <h2>Search Results</h2>
-     <!-- Search form -->
-<form class="form-inline mr-auto">
-  <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-  <button class="btn btn-unique btn-rounded btn-sm my-0" type="submit">Search</button>
-</form>
    <table class="table table-hover table-condensed member-table">
     <thead>
     <tr>
@@ -67,7 +62,7 @@
    <td>{{r[6]}}</td>
    <td>{{r[7]}}</td>
    <td><a href="/updateMember/{{r[8]}}"><button>Update</button></a>
-   <input type='button' value='Delete' name='Delete' onclick="window.location='/deleteMember/{{r[8]}}'"</td>
+   <input type='button' value='Delete' name='Delete' onclick="window.location='/deleteMember/{{r[8]}}'"></td>
   </tr>
   {% endfor %}
   </tbody>
