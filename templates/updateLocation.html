@@ -77,8 +77,8 @@
        <option value="WY">Wyoming</option>
     </select>
     <label for="zip">Zip Code</label>
-    <input type="text" name="zip" id="zip" value= {{location[6]}} required><br><br>
-    <input type="submit" value="Update Location">
+    <input type="text" name="zip" id="zip" value= {{location[6]}} pattern="[0-9]{5}" title="Please enter a 5 digit zip code" required><br><br>
+    <input type="submit" value="Submit">
   </form>
 </div>
 
