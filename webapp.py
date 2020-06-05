@@ -57,6 +57,13 @@ def programs():
 	result = execute_query(db_connection, query).fetchall()
 	return render_template('programs.html',rows=result)
 
+@app.route('/getTrainer/<location_id>')
+def getTrainer(location_id):
+	db_connection = connect_to_database()
+	query3 = "SELECT CONCAT_WS(' ', first_name, last_name) from trainers WHERE location_id = %s;" % (location_id)
+	result3 = execute_query(db_connection, query3).fetchall()
+	return jsonify(result3)
+
 @app.route('/addMember', methods=['POST','GET'])
 def addMember():
 	db_connection = connect_to_database()
