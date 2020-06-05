@@ -6,6 +6,35 @@
 
 {% block head %}
 <script src ="{{ url_for('static', filename='validation.js') }}"></script>
+
+    <!--source: https://stackoverflow.com/questions/44646925/flask-dynamic-dependent-dropdown-list/44654011 -->
+    <!--below script used to dynamically populate trainer dropdown-->
+    <script>
+      $(document).ready(function() {
+        
+        $('#preferred_location').change(function() {
+
+          var preferred_location = $('#preferred_location').val();
+
+          // Make Ajax Request and expect JSON-encoded data
+          $.getJSON(
+            '/getTrainer' + '/' + preferred_location,
+            function(data) {
+
+              // Remove old options
+              $('#trainer_id').find('option').remove();                                
+
+              // Add new items
+              $.each(data, function(key, val) {
+                var option_item = '<option value="' + val + '">' + val + '</option>'
+                $('#trainer_id').append(option_item);
+              });
+            }
+          );
+        });
+      });
+    </script>
+
 {% endblock %}
 
 
@@ -78,7 +107,7 @@
 	    </select><br><br>
 
 	    <label for="preferred_location">Preferred Location</label>
-	    <select name="preferred_location" value ="{{ member[7] }}" required>
+	    <select name="preferred_location" id="preferred_location" value ="{{ member[7] }}" required>
 	      {% for l in locations %}
 	      	  {{l[0]}}
 	      	  {{member[7]}}
@@ -91,7 +120,7 @@
 	    </select>
 
 	    <label for="trainer_id">Personal Trainer</label>
-	    <select name="trainer_id" value ="{{ member[8] }}">
+	    <select name="trainer_id" id="trainer_id" value ="{{ member[8] }}">
 
 	    	{% if None == member[8] %}
 	      	    <option selected value=""></option>
