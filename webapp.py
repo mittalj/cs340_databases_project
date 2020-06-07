@@ -59,14 +59,16 @@ def programs():
 
 @app.route('/getTrainer/<location_id>')
 def getTrainer(location_id):
+	# Helper function to pull data of trainers at a particular location
 	db_connection = connect_to_database()
-	query3 = "SELECT CONCAT_WS(' ', first_name, last_name) from trainers WHERE location_id = %s;" % (location_id)
-	result3 = execute_query(db_connection, query3).fetchall()
-	return jsonify(result3)
+	query = "SELECT CONCAT_WS(' ', first_name, last_name) from trainers WHERE location_id = %s;" % (location_id)
+	result = execute_query(db_connection, query).fetchall()
+	return jsonify(result)
 
 @app.route('/addMember', methods=['POST','GET'])
 def addMember():
 	db_connection = connect_to_database()
+	# Pull data for dropdown menus on form
 	if request.method == 'GET':
 		query1 = "SELECT program_id, program_name from programs;"
 		result1 = execute_query(db_connection, query1).fetchall()
@@ -75,11 +77,13 @@ def addMember():
 		query3 = "SELECT trainer_id, first_name, last_name from trainers;"
 		result3 = execute_query(db_connection, query3).fetchall()
 		return render_template('addMember.html', programs=result1, locations=result2, trainers=result3)
+	# Update database with user inputted fields
 	elif request.method == 'POST':
 		first_name_input = request.form['first_name']
 		last_name_input = request.form['last_name']
 		birth_date_input = request.form['birth_date']
 		gender_input = request.form['gender']
+		# Convert gender values to integers
 		if gender_input == 'male':
 			gender_input = 0
 		elif gender_input == 'female':
@@ -91,6 +95,7 @@ def addMember():
 		location_dropdown_input = request.form['preferred_location']
 		trainer_id_dropdown_input = request.form['trainer_id']
 
+		#if no program or trainer is added, update program and/or trainer field to null 
 		if program_id_input == "":
 			program_id_input = None
 
@@ -100,6 +105,7 @@ def addMember():
 		query1 = "INSERT INTO members (first_name, last_name, birth_date, gender, weight, program_id, preferred_location, trainer_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
 		data1 = (first_name_input,last_name_input,birth_date_input,gender_input, weight_input, program_id_input, location_dropdown_input, trainer_id_dropdown_input)
 		result1 = execute_query(db_connection, query1, data1)
+		# Get the value of the inserted member id
 		myMemberID = result1.lastrowid
 		print("My Member ID:")
 		print(myMemberID)
@@ -110,6 +116,7 @@ def addMember():
 def addLocation():
 	if request.method == 'GET':
 		return render_template('addLocation.html')
+	# Update database with user inputted fields
 	elif request.method == 'POST':
 		branch_name_input = request.form['branch_name']
 		address_line1_input = request.form['address_line1']
@@ -206,20 +213,25 @@ def addProgram():
 def updateMember(id):
 	print("In the function")
 	db_connection = connect_to_database()
+	# Populate data for dropdown fields on the template form
 	if request.method=='GET':
 		print('The GET Request')
+		#Get data on a particular member with the specified member id
 		member_query = 'SELECT member_id, first_name, last_name, birth_date, gender, weight, program_id, preferred_location, trainer_id  FROM members WHERE member_id = %s' % id
 		member_result = execute_query(db_connection, member_query).fetchone()
 
 		if member_result == None:
 			return "No such member found!"
 
+		# Pull data for all of the trainers
 		trainer_query = 'SELECT trainer_id, first_name, last_name FROM trainers'
 		trainer_result = execute_query(db_connection, trainer_query).fetchall()
-
+		
+		# Pull data for all of the locations
 		location_query = 'SELECT location_id, branch_name FROM locations'
 		location_result = execute_query(db_connection, location_query).fetchall()
 
+		# Pull data for all of the programs
 		program_query = "SELECT program_id, program_name from programs"
 		program_result = execute_query(db_connection, program_query).fetchall()
 
@@ -227,6 +239,7 @@ def updateMember(id):
 		flash(u'A Member Has Been Updated.', 'confirmation')
 		return render_template('updateMember.html', member = member_result, trainers = trainer_result, locations = location_result, programs = program_result)
 
+	# Update database with new updates 
 	elif request.method == 'POST':
 		print('The POST request')
 		member_id_input = request.form['id']
@@ -234,6 +247,7 @@ def updateMember(id):
 		last_name_input = request.form['last_name']
 		birth_date_input = request.form['birth_date']
 		gender_input = request.form['gender']
+		# Convert gender values to integers
 		if gender_input == 'male':
 			gender_input = 0
 		elif gender_input == 'female':
@@ -245,6 +259,7 @@ def updateMember(id):
 		location_dropdown_input = request.form['preferred_location']
 		trainer_id_dropdown_input = request.form['trainer_id']
 
+		#if no program or trainer is added, update program and/or trainer field to null 
 		if program_id_input == "":
 			program_id_input = None
 
@@ -324,6 +339,7 @@ def updateTrainer(id):
 def updateLocation(id):
 	print("In the function")
 	db_connection = connect_to_database()
+	# Get data for the particular location with the specified location id
 	if request.method == 'GET':
 		location_query = 'SELECT location_id, branch_name, address_line1, address_line2, city, state, zip from locations WHERE location_id = %s' % id
 		location_result = execute_query(db_connection, location_query).fetchone()
@@ -334,6 +350,7 @@ def updateLocation(id):
 		print("Returning")
 		return render_template('updateLocation.html', location = location_result)
 
+	# Update database with new updates 
 	elif request.method == 'POST':
 		print('The POST request')
 		location_id_input = request.form['id']
@@ -362,9 +379,12 @@ def delete_trainer(id):
 
 @app.route('/search', methods=['POST', 'GET'])
 def search():
+	#Function is used for search filter on members page
 	if request.method == 'GET':
 		print("get request")
 		return render_template('search.html')
+	
+	#User inputs a single name and search results show members with a first name or last name with that name
 	elif request.method == 'POST':
 		print("post request")
 		db_connection = connect_to_database()
@@ -381,6 +401,7 @@ def search():
 
 @app.route('/deleteMember/<int:id>')
 def deleteMember(id):
+	#deletes a member with the particular id
 	db_connection = connect_to_database()
 	query = "DELETE FROM members WHERE member_id = %s"
 	data = (id,)
