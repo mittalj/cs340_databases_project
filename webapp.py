@@ -234,9 +234,7 @@ def updateMember(id):
 		# Pull data for all of the programs
 		program_query = "SELECT program_id, program_name from programs"
 		program_result = execute_query(db_connection, program_query).fetchall()
-
 		print("Returning")
-		flash(u'A Member Has Been Updated.', 'confirmation')
 		return render_template('updateMember.html', member = member_result, trainers = trainer_result, locations = location_result, programs = program_result)
 
 	# Update database with new updates 
@@ -271,6 +269,7 @@ def updateMember(id):
 				 location_dropdown_input, trainer_id_dropdown_input, member_id_input)
 		result = execute_query(db_connection, query, data)
 		print(str(result.rowcount) + " row(s) updated")
+		flash(u'A Member Has Been Updated.', 'confirmation')
 		return redirect(url_for('members'))
 
 @app.route('/updateTrainer/<int:id>',methods=['POST','GET'])
