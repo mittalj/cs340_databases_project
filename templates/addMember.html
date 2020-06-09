@@ -84,11 +84,10 @@
     </select>
 
 
-
     <label for="trainer_id">Personal Trainer</label>
     <select name="trainer_id" id="trainer_id"> 
-       <option selected value=""></option>
-=      {% for t in trainers %}
+    <option value="" disabled selected>Select your option</option>
+      {% for t in trainers %}
           <option value="{{ t[0] }}">{{ t[1] }} {{ t[2] }}</option>
       {% endfor %}
     </select><br><br>
