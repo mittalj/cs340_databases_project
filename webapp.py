@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from flask import request, redirect, url_for, flash
+from flask import request, redirect, url_for, flash, jsonify
 from db_connector import connect_to_database, execute_query
 import collections
 import itertools
