@@ -28,11 +28,14 @@
               // Remove old options
               $('#trainer_id').find('option').remove();                                
 
+              $("#trainer_id").prepend("<option value='' selected='selected'></option>");
+
               // Add new items
               $.each(data, function(key, val) {
-                var option_item = '<option value="' + val + '">' + val + '</option>'
+                var option_item = '<option value="' + val + '">' + val[1] + '</option>'
                 $('#trainer_id').append(option_item);
               });
+
             }
           );
         });
@@ -83,16 +86,13 @@
       {% endfor %}
     </select>
 
-
     <label for="trainer_id">Personal Trainer</label>
     <select name="trainer_id" id="trainer_id"> 
-    <option value="" disabled selected>Select your option</option>
-      {% for t in trainers %}
-          <option value="{{ t[0] }}">{{ t[1] }} {{ t[2] }}</option>
-      {% endfor %}
+    <option value="" disabled selected>Select location first</option>
+    #jQuery will display options based on location selected
     </select><br><br>
 
-    <input type="submit" name="addMember" value="Add Member">
+    <input type="submit" id="addMemberSubmit" name="addMember" value="Add Member">
     </form>
 </div>
 
