@@ -61,7 +61,7 @@ def programs():
 def getTrainer(location_id):
 	# Helper function to pull data of trainers at a particular location
 	db_connection = connect_to_database()
-	query = "SELECT CONCAT_WS(' ', first_name, last_name) from trainers WHERE location_id = %s;" % (location_id)
+	query = "SELECT trainer_id, CONCAT_WS(' ', first_name, last_name) from trainers WHERE location_id = %s;" % (location_id)
 	result = execute_query(db_connection, query).fetchall()
 	return jsonify(result)
 
@@ -95,7 +95,7 @@ def addMember():
 		location_dropdown_input = request.form['preferred_location']
 		trainer_id_dropdown_input = request.form['trainer_id']
 
-		#if no program or trainer is added, update program and/or trainer field to null 
+		#if no program or trainer is added, update program and/or trainer field to null
 		if program_id_input == "":
 			program_id_input = None
 
@@ -269,7 +269,7 @@ def updateMember(id):
 				 location_dropdown_input, trainer_id_dropdown_input, member_id_input)
 		result = execute_query(db_connection, query, data)
 		print(str(result.rowcount) + " row(s) updated")
-		flash(u'A Member Has Been Updated.', 'confirmation')
+		flash(u'A Member Has Been Updated!!', 'confirmation')
 		return redirect(url_for('members'))
 
 @app.route('/updateTrainer/<int:id>',methods=['POST','GET'])
