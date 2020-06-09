@@ -24,9 +24,11 @@
               // Remove old options
               $('#trainer_id').find('option').remove();                                
 
+              $("#trainer_id").prepend("<option value='' selected='selected'></option>");
+
               // Add new items
               $.each(data, function(key, val) {
-                var option_item = '<option value="' + val + '">' + val + '</option>'
+                var option_item = '<option value="' + val + '">' + val[1] + '</option>'
                 $('#trainer_id').append(option_item);
               });
             }
@@ -123,31 +125,22 @@
 	    <select name="trainer_id" id="trainer_id" value ="{{ member[8] }}">
 
 	    	{% if None == member[8] %}
-	      	    <option selected value=""></option>
-
-	      		{% for t in trainers %}
-	     	  		{{t[0]}}
-		      	  	{{member[8]}}
-		      		<option value="{{ t[0] }}">{{ t[1] }} {{ t[2] }}</option>
-	      		{% endfor %} 
+	      	    <option disabled selected value="">Select location first</option>
 
 	    	{% else %}
-	      	    <option value=""></option>
 		       {% for t in trainers %}
 		      	  {{t[0]}}
 		      	  {{member[8]}}
-
 		      	   {%  if t[0] == member[8] %}
 		      	        <option selected value="{{ t[0] }}">{{ t[1] }} {{ t[2] }}</option>
-		      	   {% else %}
-		      	        <option value="{{ t[0] }}">{{ t[1] }} {{ t[2] }}</option>
-		      	   {% endif %}
+    					<option disabled value="">To refresh: select location</option>
+				   {% endif %}
 		      	{% endfor %} 
 	      	{% endif %}
 
 	      	  
 	    </select>
-	    <input type="submit" value="Submit">
+   	 <input type="submit" id="updateMemberSubmit" name="updateMember" onclick="checkDOB()" value="Update Member">
 
     </form>
 	
