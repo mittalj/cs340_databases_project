@@ -10,19 +10,19 @@
    <input type="hidden" name="id" id="id" value = "{{ location[0] }}">
 
     <label for="branch_name">Branch Name</label>
-    <input type="text" name="branch_name" id="branch_name" value= {{location[1]}} required><br><br>
+    <input type="text" name="branch_name" id="branch_name" value= '{{location[1]}}' required><br><br>
 
     <label for="address_line1">Address Line 1</label>
-    <input type="text" name="address_line1" id="address_line1" value= {{location[2]}} required>
+    <input type="text" name="address_line1" id="address_line1" value= '{{location[2]}}' required>
 
     <label for="address_line2">Address Line 2</label>
-    <input type="text" name="address_line2" id="address_line2" value= {{location[3]}}><br><br>
+    <input type="text" name="address_line2" id="address_line2" value= '{{location[3]}}'><br><br>
 
     <label for="city">City</label>
-    <input type="text" name="city" id="city" value= {{location[4]}} required>
+    <input type="text" name="city" id="city" value= '{{location[4]}}' required>
 
     <label for="state">State</label>
-    <select name="state" id="state" value= {{location[5]}} required>
+    <select name="state" id="state" value= '{{location[5]}}' required>
        <option selected value="{{ location[5] }}">{{ location[5] }}</option>
        <option value="AL">Alabama</option>
        <option value="AK">Alaska</option>
@@ -77,7 +77,7 @@
        <option value="WY">Wyoming</option>
     </select>
     <label for="zip">Zip Code</label>
-    <input type="text" name="zip" id="zip" value= {{location[6]}} pattern="[0-9]{5}" title="Please enter a 5 digit zip code" required><br><br>
+    <input type="text" name="zip" id="zip" value= '{{location[6]}}' pattern="[0-9]{5}" title="Please enter a 5 digit zip code" required><br><br>
     <input type="submit" value="Submit">
   </form>
 </div>
